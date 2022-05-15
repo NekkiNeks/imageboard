@@ -1,8 +1,13 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 
+//redux
+import { useSelector, useDispatch } from "react-redux";
+import { setModal } from "../store/postsSlice";
+
 //types
 import type { iPost } from "../types/types";
+import { RootState } from "../store";
 interface iProps extends iPost {}
 
 //import components
@@ -15,6 +20,12 @@ export default function Comment({
   time,
   answers,
 }: iProps) {
+  const { modal } = useSelector((store: RootState) => {
+    return store.posts;
+  });
+
+  const dispatch = useDispatch();
+
   const [newAnswers, setNewAnswers] = useState<null | iPost[]>(null);
 
   async function getAnswers(id: string | number) {
@@ -22,6 +33,11 @@ export default function Comment({
     const data = await res.json();
     setNewAnswers(data.data);
   }
+
+  function handleAnswer() {
+    dispatch(setModal({ ...modal, id: id, show: true }));
+  }
+
   useEffect(() => {
     if (answers) {
       getAnswers(id);
@@ -38,6 +54,7 @@ export default function Comment({
         newAnswers.map((item) => {
           return <Comment {...item} key={item.id} />;
         })}
+      <button onClick={handleAnswer}>answer</button>
     </Container>
   );
 }

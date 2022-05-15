@@ -2,16 +2,27 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import styled from "styled-components";
 
+//redux
+import { setModal } from "../../store/postsSlice";
+import { useSelector, useDispatch } from "react-redux";
+
 //types
 import type { iPost } from "../../types/types";
+import { RootState } from "../../store";
 type iProps = {};
 
 //import components
 import Comment from "../../components/Comment";
+import Modal from "../../components/Modal";
 
 export default function Post({}: iProps) {
   const router = useRouter();
-  const { id } = router.query;
+  let { id } = router.query;
+  const dispatch = useDispatch();
+  const { modal } = useSelector((store: RootState) => {
+    return store.posts;
+  });
+  //^boilerplate
 
   const [post, setPost] = useState<null | iPost>(null);
   const [answers, setAnswers] = useState<null | iPost[]>(null);
@@ -38,6 +49,7 @@ export default function Post({}: iProps) {
   if (post) {
     return (
       <Container>
+        {modal.show && <Modal />}
         <h1>{post.title}</h1>
         <p>{post.text}</p>
         <p>{post.time}</p>

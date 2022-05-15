@@ -1,40 +1,41 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import Thread from "../../components/Thread";
 
 //types
-import type { iPost } from "../../types/types";
-
+import { RootState } from "../../store";
 type iProps = {};
 
-type iThread = {
-  id: number;
-  title: string;
-  text: string;
-  time: string;
-};
+//redux
+import { useSelector, useDispatch } from "react-redux";
+import { updatePosts } from "../../store/postsSlice";
+
 //import components
+import Thread from "../../components/Thread";
 
 export default function Posts({}: iProps) {
-  const [threads, setThreads] = useState<iPost[] | null>(null);
+  const { posts, loading, error } = useSelector(
+    (store: RootState) => store.posts
+  );
+  const dispatch = useDispatch();
 
   async function fetchData() {
-    const res = await fetch(`http://localhost:4000/threads`);
+    const res = await fetch(`http://localhost:4000/posts`);
     const data = await res.json();
-    setThreads(data.data);
+    dispatch(updatePosts(data.data));
   }
 
   useEffect(() => {
-    //simplify
     fetchData();
   }, []);
+
+  console.log(loading, error);
 
   return (
     <Container>
       <h1>Here will be a list of posts</h1>
-      {threads &&
-        threads.map((thread) => {
-          return <Thread {...thread} key={thread.id} />;
+      {posts &&
+        posts.map((post) => {
+          return <Thread {...post} key={post.id} />;
         })}
     </Container>
   );
