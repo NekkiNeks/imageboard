@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 //redux
 import { useSelector, useDispatch } from "react-redux";
-import { setModal } from "../store/postsSlice";
+import { setId, setShow } from "../store/modalSlice";
 
 //types
 import type { iPost } from "../types/types";
@@ -20,10 +20,9 @@ export default function Comment({
   time,
   answers,
 }: iProps) {
-  const { modal } = useSelector((store: RootState) => {
-    return store.posts;
+  const modal = useSelector((store: RootState) => {
+    return store.modal;
   });
-
   const dispatch = useDispatch();
 
   const [newAnswers, setNewAnswers] = useState<null | iPost[]>(null);
@@ -35,7 +34,8 @@ export default function Comment({
   }
 
   function handleAnswer() {
-    dispatch(setModal({ ...modal, id: id, show: true }));
+    dispatch(setId({ id: id }));
+    dispatch(setShow({ show: true }));
   }
 
   useEffect(() => {

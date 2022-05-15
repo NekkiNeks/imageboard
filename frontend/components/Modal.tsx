@@ -3,7 +3,13 @@ import axios from "axios";
 import styled from "styled-components";
 
 //redux
-import { setModal } from "../store/postsSlice";
+import {
+  setId,
+  setShow,
+  setLoading,
+  setError,
+  setDefault,
+} from "../store/modalSlice";
 import { useSelector, useDispatch } from "react-redux";
 
 //types
@@ -19,8 +25,8 @@ interface iInputs {
 
 export default function Modal({}: iProps) {
   const dispatch = useDispatch();
-  const { modal } = useSelector((store: RootState) => {
-    return store.posts;
+  const modal = useSelector((store: RootState) => {
+    return store.modal;
   });
 
   const [input, setInput] = useState<iInputs>({
@@ -32,7 +38,7 @@ export default function Modal({}: iProps) {
   async function handleSubmit(e: FormEvent) {
     try {
       e.preventDefault();
-      dispatch(setModal({ ...modal, loading: true }));
+      dispatch(setLoading({ loading: true }));
       const res = await axios({
         method: "POST",
         url: "http://localhost:4000/posts",
@@ -44,43 +50,19 @@ export default function Modal({}: iProps) {
         },
       });
       if (res.status === 200) {
-        dispatch(
-          setModal({
-            ...modal,
-            id: null,
-            loading: false,
-            show: false,
-            error: false,
-            errorMessage: null,
-          })
-        );
+        dispatch(setDefault());
       }
     } catch (error) {
       if (error instanceof Error) {
-        console.log(error);
-
-        dispatch(
-          setModal({
-            ...modal,
-            loading: false,
-            error: true,
-            errorMessage: error.message,
-          })
-        );
+        dispatch(setError({ error: true, errorMessage: error.message }));
+      } else {
+        console.warn("unhandeled error/throw in form submit!");
       }
     }
   }
 
   function handleClose() {
-    dispatch(
-      setModal({
-        ...modal,
-        id: null,
-        show: false,
-        error: false,
-        errorMessage: null,
-      })
-    );
+    dispatch(setShow({ show: false }));
   }
 
   function handleChange(e: FormEvent<HTMLInputElement>) {

@@ -3,7 +3,6 @@ import { useRouter } from "next/router";
 import styled from "styled-components";
 
 //redux
-import { setModal } from "../../store/postsSlice";
 import { useSelector, useDispatch } from "react-redux";
 
 //types
@@ -19,8 +18,8 @@ export default function Post({}: iProps) {
   const router = useRouter();
   let { id } = router.query;
   const dispatch = useDispatch();
-  const { modal } = useSelector((store: RootState) => {
-    return store.posts;
+  const modal = useSelector((store: RootState) => {
+    return store.modal;
   });
   //^boilerplate
 
