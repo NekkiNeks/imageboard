@@ -1,9 +1,12 @@
 const express = require("express");
 const app = express();
 const cors = require("cors");
+const bodyParser = require("body-parser");
 const PORT = 4000;
 
 app.use(cors());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
 const { Client } = require("pg");
 const client = new Client({
@@ -63,7 +66,7 @@ async function getAnswers(id) {
   return answers;
 }
 
-app.get("/threads", (req, res) => {
+app.get("/posts", (req, res) => {
   getThreads()
     .then((responce) => res.send({ status: "success", data: responce }))
     .catch((err) =>
@@ -87,6 +90,14 @@ app.get("/answers/:id", (req, res) => {
     .catch((err) =>
       res.status(500).send({ status: "failed", message: err.message })
     );
+});
+
+app.post("/posts", (req, res) => {
+  const { id, title, text, image_url } = req.body;
+  res.status(200).send({
+    status: "success",
+    string: `INSERT INTO post title = ${title} text = ${title} image_url = ${image_url} time = Date() WHERE id = ${id}`,
+  });
 });
 
 app.listen(PORT, console.log(`server is listening on PORT ${PORT}`));
