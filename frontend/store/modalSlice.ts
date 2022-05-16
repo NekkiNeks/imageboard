@@ -1,7 +1,14 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
+interface iData {
+  thread_id: number | null;
+  answer_to: number[];
+  title: string;
+  content: string;
+}
+
 interface ModalState {
-  id: number | null;
+  data: iData;
   show: boolean;
   loading: boolean;
   error: boolean;
@@ -9,7 +16,12 @@ interface ModalState {
 }
 
 const initialState: ModalState = {
-  id: null,
+  data: {
+    thread_id: null, // change!!
+    answer_to: [],
+    title: "",
+    content: "",
+  },
   show: false,
   loading: false,
   error: false,
@@ -20,8 +32,8 @@ export const modalSlice = createSlice({
   name: "modal",
   initialState,
   reducers: {
-    setId: (state, action: PayloadAction<{ id: number | null }>) => {
-      state.id = action.payload.id;
+    setData: (state, action: PayloadAction<iData>) => {
+      state.data = action.payload;
     },
     setShow: (state, action: PayloadAction<{ show: boolean }>) => {
       state.show = action.payload.show;
@@ -39,7 +51,7 @@ export const modalSlice = createSlice({
         : null;
     },
     setDefault: (state) => {
-      state.id = null;
+      state.data = initialState.data;
       state.show = false;
       state.loading = false;
       state.error = false;
@@ -48,7 +60,7 @@ export const modalSlice = createSlice({
   },
 });
 
-export const { setId, setShow, setLoading, setError, setDefault } =
+export const { setData, setShow, setLoading, setError, setDefault } =
   modalSlice.actions;
 
 export default modalSlice.reducer;

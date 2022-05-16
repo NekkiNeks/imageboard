@@ -7,21 +7,21 @@ type iProps = {};
 
 //redux
 import { useSelector, useDispatch } from "react-redux";
-import { updatePosts } from "../../store/postsSlice";
+import { setPosts } from "../../store/postsSlice";
 
 //import components
 import Thread from "../../components/Thread";
 
 export default function Posts({}: iProps) {
+  const dispatch = useDispatch();
   const { posts, loading, error } = useSelector(
     (store: RootState) => store.posts
   );
-  const dispatch = useDispatch();
 
   async function fetchData() {
     const res = await fetch(`http://localhost:4000/posts`);
     const data = await res.json();
-    dispatch(updatePosts(data.data));
+    dispatch(setPosts(data.data));
   }
 
   useEffect(() => {

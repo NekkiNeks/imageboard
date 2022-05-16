@@ -1,10 +1,12 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 //types
-import type { iPost } from "../types/types";
+import type { iComment, iPost } from "../types/types";
 
 type PostsState = {
   posts: iPost[];
+  currentPost: iPost | null;
+  comments: iComment[];
   loading: boolean;
   error: boolean;
   errorMessage: string | null;
@@ -12,7 +14,8 @@ type PostsState = {
 
 const initialState: PostsState = {
   posts: [],
-
+  currentPost: null,
+  comments: [],
   loading: false,
   error: false,
   errorMessage: null,
@@ -22,8 +25,14 @@ export const postsSlice = createSlice({
   name: "posts",
   initialState,
   reducers: {
-    updatePosts: (state, action: PayloadAction<iPost[]>) => {
+    setPosts: (state, action: PayloadAction<iPost[]>) => {
       state.posts = action.payload;
+    },
+    setCurrentPost: (state, action: PayloadAction<iPost>) => {
+      state.currentPost = action.payload;
+    },
+    setComments: (state, action: PayloadAction<iComment[]>) => {
+      state.comments = action.payload;
     },
     setLoading: (state, action: PayloadAction<boolean>) => {
       state.loading = action.payload;
@@ -37,7 +46,13 @@ export const postsSlice = createSlice({
   },
 });
 
-export const { updatePosts, setLoading, setError, setErrorMessage } =
-  postsSlice.actions;
+export const {
+  setPosts,
+  setCurrentPost,
+  setComments,
+  setLoading,
+  setError,
+  setErrorMessage,
+} = postsSlice.actions;
 
 export default postsSlice.reducer;

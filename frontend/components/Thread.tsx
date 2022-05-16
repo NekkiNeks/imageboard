@@ -10,20 +10,20 @@ interface iProps extends iPost {}
 //import components
 
 export default function Thread({
-  image_url,
+  image,
   title,
-  text,
+  content,
   time,
   id,
-  answers,
+  comments,
 }: iProps) {
   return (
     <Container>
-      {image_url && <Image src={image_url} alt="image" />}
+      {image && <Image src={image} alt="image" />}
       <h1>{title}</h1>
-      <p>{text}</p>
+      <p>{content}</p>
       <Time>{time}</Time>
-      <Answers>answers: {answers}</Answers>
+      <Answers>answers: {comments}</Answers>
       <Link href={`posts/${id}`}>Enter to Thread</Link>
     </Container>
   );
@@ -40,7 +40,7 @@ const Container = styled.div`
 `;
 
 const Image = styled.img`
-width: 30%; 
+  width: 30%;
 `;
 
 const Time = styled.p`

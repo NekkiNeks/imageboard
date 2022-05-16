@@ -1,59 +1,60 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import styled from "styled-components";
 
 //redux
 import { useSelector, useDispatch } from "react-redux";
-import { setId, setShow } from "../store/modalSlice";
+import { setData, setShow } from "../store/modalSlice";
 
 //types
-import type { iPost } from "../types/types";
+import type { iComment } from "../types/types";
 import { RootState } from "../store";
-interface iProps extends iPost {}
+interface iProps extends iComment {}
 
 //import components
 
 export default function Comment({
   id,
-  image_url,
-  title,
-  text,
   time,
+  title,
+  content,
+  image,
+  answer_to,
   answers,
 }: iProps) {
+  const dispatch = useDispatch();
   const modal = useSelector((store: RootState) => {
     return store.modal;
   });
-  const dispatch = useDispatch();
-
-  const [newAnswers, setNewAnswers] = useState<null | iPost[]>(null);
-
-  async function getAnswers(id: string | number) {
-    const res = await fetch(`http://localhost:4000/answers/${id}`);
-    const data = await res.json();
-    setNewAnswers(data.data);
-  }
+  const posts = useSelector((store: RootState) => {
+    return store.posts;
+  });
 
   function handleAnswer() {
-    dispatch(setId({ id: id }));
+    dispatch(
+      setData({
+        ...modal.data,
+        answer_to: [id],
+        thread_id: posts.currentPost ? posts.currentPost.id : 0,
+      })
+    ); // change!!
     dispatch(setShow({ show: true }));
   }
 
-  useEffect(() => {
-    if (answers) {
-      getAnswers(id);
-    }
-  }, [id, answers]);
-
   return (
     <Container>
-      {image_url && <Image src={image_url} alt="image" />}
-      <h3>{title}</h3>
-      <p>{text}</p>
+      {image && <Image src={image} alt="image" />}
+      <p>id: {id}</p>
       <p>{time}</p>
-      {newAnswers &&
-        newAnswers.map((item) => {
-          return <Comment {...item} key={item.id} />;
-        })}
+      <h3>{title}</h3>
+      <p>{content}</p>
+      <p>answer to:</p>
+      {answer_to.map((id) => {
+        return <p>{id}</p>;
+      })}
+      <p>answers:</p>
+      {answers.map((id) => {
+        return <p>{id}</p>;
+      })}
       <button onClick={handleAnswer}>answer</button>
     </Container>
   );

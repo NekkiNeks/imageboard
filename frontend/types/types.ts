@@ -1,10 +1,19 @@
 export type iPost = {
   id: number;
-  is_thread: boolean;
-  image_url: string;
-  title: string;
-  text: string;
   time: string;
-  answers_to?: number;
-  answers: number;
+  title: string;
+  content: string;
+  image: string;
+  comments: number;
+};
+
+export type iComment = {
+  id: number;
+  time: string;
+  title: string;
+  content: string;
+  image: string;
+  answer_to: number[];
+  answers: number[];
+  thread_id: number;
 };

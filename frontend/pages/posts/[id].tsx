@@ -4,6 +4,8 @@ import styled from "styled-components";
 
 //redux
 import { useSelector, useDispatch } from "react-redux";
+import { setCurrentPost, setComments } from "../../store/postsSlice";
+import { setShow } from "../../store/modalSlice";
 
 //types
 import type { iPost } from "../../types/types";
@@ -21,39 +23,47 @@ export default function Post({}: iProps) {
   const modal = useSelector((store: RootState) => {
     return store.modal;
   });
+  const { currentPost, comments } = useSelector((store: RootState) => {
+    return store.posts;
+  });
   //^boilerplate
 
-  const [post, setPost] = useState<null | iPost>(null);
-  const [answers, setAnswers] = useState<null | iPost[]>(null);
-
-  async function getData(id: string) {
-    const res = await fetch(`http://localhost:4000/posts/${id}`);
+  async function getComments(id: string) {
+    const res = await fetch(`http://localhost:4000/comments/${id}`);
     const data = await res.json();
-    setPost(data.data);
+    dispatch(setComments(data.data));
   }
 
-  async function getAnswers(id: string) {
-    const res = await fetch(`http://localhost:4000/answers/${id}`);
+  async function getPost(id: string) {
+    const res = await fetch(`http://localhost:4000/posts/${id}`);
     const data = await res.json();
-    setAnswers(data.data);
+    const post: iPost = data.data[0];
+    dispatch(setCurrentPost(post));
+    getComments(id);
   }
 
   useEffect(() => {
     if (typeof id === "string") {
-      getData(id);
-      getAnswers(id);
+      getPost(id);
     }
   }, [id]);
 
-  if (post) {
+  if (currentPost) {
     return (
       <Container>
         {modal.show && <Modal />}
-        <h1>{post.title}</h1>
-        <p>{post.text}</p>
-        <p>{post.time}</p>
-        {answers &&
-          answers.map((item) => {
+        <h1>{currentPost.title}</h1>
+        <p>{currentPost.content}</p>
+        <p>{currentPost.time}</p>
+        <button
+          onClick={() => {
+            dispatch(setShow({ show: true }));
+          }}
+        >
+          answer
+        </button>
+        {comments &&
+          comments.map((item) => {
             return <Comment {...item} key={item.id} />;
           })}
       </Container>
@@ -64,4 +74,6 @@ export default function Post({}: iProps) {
 }
 
 //styles
-const Container = styled.div``;
+const Container = styled.div`
+  padding: 1rem;
+`;
