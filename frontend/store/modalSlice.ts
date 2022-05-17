@@ -17,7 +17,7 @@ interface ModalState {
 
 const initialState: ModalState = {
   data: {
-    thread_id: null, // change!!
+    thread_id: null,
     answer_to: [],
     title: "",
     content: "",
@@ -32,6 +32,17 @@ export const modalSlice = createSlice({
   name: "modal",
   initialState,
   reducers: {
+    addId: (state, action: PayloadAction<{ id: number }>) => {
+      if (!state.data.answer_to.includes(action.payload.id)) {
+        state.data.answer_to = [...state.data.answer_to, action.payload.id];
+      }
+    },
+    removeId: (state, action: PayloadAction<{ id: number }>) => {
+      const filtered = state.data.answer_to.filter(
+        (id) => id !== action.payload.id
+      );
+      state.data.answer_to = filtered;
+    },
     setData: (state, action: PayloadAction<iData>) => {
       state.data = action.payload;
     },
@@ -60,7 +71,14 @@ export const modalSlice = createSlice({
   },
 });
 
-export const { setData, setShow, setLoading, setError, setDefault } =
-  modalSlice.actions;
+export const {
+  setData,
+  addId,
+  removeId,
+  setShow,
+  setLoading,
+  setError,
+  setDefault,
+} = modalSlice.actions;
 
 export default modalSlice.reducer;

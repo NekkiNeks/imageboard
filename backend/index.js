@@ -86,20 +86,12 @@ async function getComments(id) {
   return comments;
 }
 
-async function addPost(title, content, image) {
-  res.send("not developed yet!, here is content: ", title, content, image);
-}
-
-async function saveFile(req, res) {
-  const responce = await upload(req, res, async (err) => {
-    if (err) {
-      console.log(err);
-    } else {
-      console.log(req.file);
-      return req.file;
-    }
-  });
-  return responce;
+async function addPost(thread_id, title, answer_to, content, image_url) {
+  const res = client.query(
+    `insert into comments (time, title, content, image, thread_id) values (NOW(), '${title}', '${content}', '${image_url}', ${thread_id}) RETURNING id;`
+  );
+  const answers_to_array = answer_to.split(",");
+  console.log(res, answers_to_array);
 }
 
 app.get("/posts/", (req, res) => {
@@ -138,6 +130,7 @@ app.post("/comments/", upload.single("file"), (req, res) => {
   if (!file) {
     console.log("no file");
   }
+  res.send("ok");
 });
 
 app.post("/posts", (req, res) => {

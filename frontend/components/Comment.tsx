@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 //redux
 import { useSelector, useDispatch } from "react-redux";
-import { setData, setShow } from "../store/modalSlice";
+import { setData, setShow, addId } from "../store/modalSlice";
 
 //types
 import type { iComment } from "../types/types";
@@ -33,10 +33,10 @@ export default function Comment({
     dispatch(
       setData({
         ...modal.data,
-        answer_to: [id],
-        thread_id: posts.currentPost ? posts.currentPost.id : 0,
+        thread_id: posts.currentPost ? posts.currentPost.id : null,
       })
     ); // change!!
+    dispatch(addId({ id: id }));
     dispatch(setShow({ show: true }));
   }
 

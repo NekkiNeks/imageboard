@@ -15,6 +15,7 @@ type iProps = {};
 //import components
 import Comment from "../../components/Comment";
 import Modal from "../../components/Modal";
+import GlobalContainer from "../../components/styled/GlobalContainer";
 
 export default function Post({}: iProps) {
   const router = useRouter();
@@ -51,21 +52,23 @@ export default function Post({}: iProps) {
   if (currentPost) {
     return (
       <Container>
-        {modal.show && <Modal />}
-        <h1>{currentPost.title}</h1>
-        <p>{currentPost.content}</p>
-        <p>{currentPost.time}</p>
-        <button
-          onClick={() => {
-            dispatch(setShow({ show: true }));
-          }}
-        >
-          answer
-        </button>
-        {comments &&
-          comments.map((item) => {
-            return <Comment {...item} key={item.id} />;
-          })}
+        <GlobalContainer>
+          {modal.show && <Modal />}
+          <h1>{currentPost.title}</h1>
+          <p>{currentPost.content}</p>
+          <p>{currentPost.time}</p>
+          <button
+            onClick={() => {
+              dispatch(setShow({ show: true }));
+            }}
+          >
+            answer
+          </button>
+          {comments &&
+            comments.map((item) => {
+              return <Comment {...item} key={item.id} />;
+            })}
+        </GlobalContainer>
       </Container>
     );
   } else {
