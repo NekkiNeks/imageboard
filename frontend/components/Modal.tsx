@@ -47,8 +47,7 @@ export default function Modal({}: iProps) {
         content: modal.data.content,
         image: file,
       };
-
-      console.log(modal.data);
+      //create formData
       const formData = new FormData();
       formData.append("file", request.image as Blob);
       formData.append("title", request.title);
@@ -56,9 +55,13 @@ export default function Modal({}: iProps) {
       if (request.thread_id) {
         formData.append("thread_id", request.thread_id.toString());
       } else {
-        formData.append("thread_id", "NULL");
+        formData.append("thread_id", "");
       }
-      formData.append("answer_to", modal.data.answer_to.toString());
+      if (modal.data.answer_to.length > 0) {
+        formData.append("answer_to", modal.data.answer_to.toString());
+      } else {
+        formData.append("answer_to", "");
+      }
       // send request
       const res = await axios({
         method: "POST",
@@ -66,9 +69,13 @@ export default function Modal({}: iProps) {
         data: formData,
       });
       console.log(res);
+      if (res.data.status === "failed") {
+        throw new Error(res.data.message);
+      }
       dispatch(setLoading({ loading: false }));
       dispatch(setDefault());
       dispatch(setShow({ show: true }));
+      setFile(null);
     } catch (error) {
       if (error instanceof Error) {
         dispatch(setLoading({ loading: false }));
@@ -95,9 +102,7 @@ export default function Modal({}: iProps) {
     <Container>
       {modal.error && (
         <ErrorBlock>
-          <p>
-            there is error, message: {modal.errorMessage}. please try again.
-          </p>
+          <p>there is error, message: {modal.errorMessage}.</p>
         </ErrorBlock>
       )}
       <Form action="POST" onSubmit={handleSubmit}>

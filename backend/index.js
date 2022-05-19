@@ -86,12 +86,43 @@ async function getComments(id) {
   return comments;
 }
 
-async function addPost(thread_id, title, answer_to, content, image_url) {
-  const res = client.query(
-    `insert into comments (time, title, content, image, thread_id) values (NOW(), '${title}', '${content}', '${image_url}', ${thread_id}) RETURNING id;`
-  );
-  const answers_to_array = answer_to.split(",");
-  console.log(res, answers_to_array);
+async function addPost(thread_id, answer_to, title, content, file) {
+  let answers = answer_to.length > 0 ? answer_to.split(",") : "";
+  if (!content) {
+    throw new Error("please enter content");
+  }
+  //SQL queries
+  const query = {
+    text: "INSERT INTO comments (time, title, content, image, thread_id) VALUES ($1, $2, $3, $4, $5) RETURNING id",
+    values: ["NOW()", title, content, file ? file.path : null, thread_id],
+  };
+  let comment_id;
+  //query for comment
+  client.query(query, (err, res) => {
+    if (err) {
+      console.log(err.stack);
+      return err.stack;
+    } else {
+      console.log("responce from SQL:");
+      console.log(res.rows);
+      comment_id = res.rows[0].id;
+    }
+    //loop for comment answers
+    for (let answer_to of answers) {
+      const answerQuery = {
+        text: "INSERT INTO commentsrelations (comment_id, answer_to) VALUES ($1, $2)",
+        values: [comment_id, answer_to],
+      };
+      client.query(answerQuery, (err, res) => {
+        if (err) {
+          console.log(err);
+        } else {
+          console.log(`answer to ${answer_to} added!`);
+        }
+      });
+    }
+  });
+  return `post with id ${comment_id} was posted`;
 }
 
 app.get("/posts/", (req, res) => {
@@ -121,25 +152,14 @@ app.get("/comments/:id", (req, res) => {
 });
 
 app.post("/comments/", upload.single("file"), (req, res) => {
-  const file = req.file;
-  const body = req.body;
+  const { thread_id, title, content, answer_to } = req.body;
+  const file = req.file ? req.file : null;
 
-  console.log(`file:`);
-  console.log(file);
-  console.log(`body: \n`, body);
-  if (!file) {
-    console.log("no file");
-  }
-  res.send("ok");
-});
-
-app.post("/posts", (req, res) => {
-  const { id, title, text, image_url } = req.body;
-  addPost(id, title, text, image_url).then((responce) => console.log(responce));
-  res.status(200).send({
-    status: "success",
-    string: `INSERT INTO post title = ${title} text = ${title} image_url = ${image_url} time = Date() WHERE id = ${id}`,
-  });
+  addPost(thread_id, answer_to, title, content, file)
+    .then((responce) => res.send({ status: "success", data: responce }))
+    .catch((err) =>
+      res.status(200).send({ status: "failed", message: err.message })
+    );
 });
 
 app.listen(PORT, console.log(`server is listening on PORT ${PORT}`));
