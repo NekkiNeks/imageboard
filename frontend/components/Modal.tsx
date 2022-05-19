@@ -1,4 +1,4 @@
-import React, { useState, FormEvent, ChangeEvent } from "react";
+import React, { useState, FormEvent, ChangeEvent, useRef } from "react";
 import axios from "axios";
 import styled from "styled-components";
 
@@ -34,7 +34,7 @@ export default function Modal({}: iProps) {
   });
 
   const [file, setFile] = useState<null | File>(null);
-
+  const fileRef = useRef<HTMLInputElement>(null);
   async function handleSubmit(e: FormEvent) {
     try {
       e.preventDefault();
@@ -78,7 +78,7 @@ export default function Modal({}: iProps) {
       dispatch(setLoading({ loading: false }));
       dispatch(setDefault());
       dispatch(setShow({ show: true }));
-      setFile(null);
+      setFileToDefault();
     } catch (error) {
       if (error instanceof Error) {
         dispatch(setLoading({ loading: false }));
@@ -86,6 +86,12 @@ export default function Modal({}: iProps) {
       } else {
         console.warn("unhandeled error/throw in form submit!");
       }
+    }
+  }
+
+  function setFileToDefault() {
+    if (fileRef.current) {
+      fileRef.current.value = "";
     }
   }
 
@@ -98,8 +104,6 @@ export default function Modal({}: iProps) {
   ) {
     dispatch(setData({ ...modal.data, [e.target.name]: e.target.value }));
   }
-
-  // RENDER
 
   return (
     <Container>
@@ -145,12 +149,14 @@ export default function Modal({}: iProps) {
           disabled={modal.loading ? true : false}
           type="file"
           name="file"
+          ref={fileRef}
           onChange={(e) => {
             const target = e.target as HTMLInputElement;
             const file: File = (target.files as FileList)[0];
             setFile(file);
           }}
         />
+        <div onClick={setFileToDefault}>delete image</div>
         <button type="submit" disabled={modal.loading ? true : false}>
           Send
         </button>

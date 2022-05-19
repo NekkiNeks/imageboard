@@ -3,16 +3,8 @@ import styled from "styled-components";
 import Link from "next/link";
 
 //redux
-import {
-  setData,
-  setShow,
-  setLoading,
-  setError,
-  setDefault,
-  removeId,
-  setPostId,
-} from "../store/modalSlice";
-import { useSelector, useDispatch } from "react-redux";
+import { setShow, setPostId } from "../store/modalSlice";
+import { useDispatch } from "react-redux";
 
 //types
 import { iPost } from "../types/types";
@@ -41,7 +33,7 @@ export default function Thread({
       <h1>{title}</h1>
       <p>{content}</p>
       <Time>{time}</Time>
-      <Answers>answers: {comments}</Answers>
+      <Answers>comments: {comments}</Answers>
       <Link href={`posts/${id}`}>Enter to Thread</Link>
       <button onClick={() => handleAnswer()}>answer</button>
     </Container>

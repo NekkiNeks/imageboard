@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useRouter } from "next/router";
 import styled from "styled-components";
 
 //redux
 import { useSelector, useDispatch } from "react-redux";
 import { setCurrentPost, setComments } from "../../store/postsSlice";
-import { setPostId, setShow } from "../../store/modalSlice";
+import { setDefault, setPostId, setShow } from "../../store/modalSlice";
 
 //types
 import type { iPost } from "../../types/types";
@@ -47,6 +47,7 @@ export default function Post({}: iProps) {
     if (typeof id === "string") {
       getPost(id);
     }
+    dispatch(setDefault());
   }, [id]);
 
   if (currentPost) {

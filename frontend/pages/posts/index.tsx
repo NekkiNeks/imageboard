@@ -8,7 +8,7 @@ type iProps = {};
 //redux
 import { useSelector, useDispatch } from "react-redux";
 import { setPosts } from "../../store/postsSlice";
-import { setShow } from "../../store/modalSlice";
+import { setDefault, setShow } from "../../store/modalSlice";
 
 //import components
 import Thread from "../../components/Thread";
@@ -29,7 +29,8 @@ export default function Posts({}: iProps) {
 
   useEffect(() => {
     fetchData();
-  }, []); 
+    dispatch(setDefault());
+  }, []);
 
   return (
     <Container>
