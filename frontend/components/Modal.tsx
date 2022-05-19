@@ -62,10 +62,13 @@ export default function Modal({}: iProps) {
       } else {
         formData.append("answer_to", "");
       }
+      const url = request.thread_id
+        ? "http://localhost:4000/comments"
+        : "http://localhost:4000/posts";
       // send request
       const res = await axios({
         method: "POST",
-        url: "http://localhost:4000/comments",
+        url: url,
         data: formData,
       });
       console.log(res);

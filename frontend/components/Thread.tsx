@@ -2,9 +2,20 @@ import React from "react";
 import styled from "styled-components";
 import Link from "next/link";
 
+//redux
+import {
+  setData,
+  setShow,
+  setLoading,
+  setError,
+  setDefault,
+  removeId,
+  setPostId,
+} from "../store/modalSlice";
+import { useSelector, useDispatch } from "react-redux";
+
 //types
 import { iPost } from "../types/types";
-
 interface iProps extends iPost {}
 
 //import components
@@ -17,6 +28,13 @@ export default function Thread({
   id,
   comments,
 }: iProps) {
+  const dispath = useDispatch();
+
+  function handleAnswer() {
+    dispath(setPostId({ id: id }));
+    dispath(setShow({ show: true }));
+  }
+
   return (
     <Container>
       {image && <Image src={image} alt="image" />}
@@ -25,6 +43,7 @@ export default function Thread({
       <Time>{time}</Time>
       <Answers>answers: {comments}</Answers>
       <Link href={`posts/${id}`}>Enter to Thread</Link>
+      <button onClick={() => handleAnswer()}>answer</button>
     </Container>
   );
 }

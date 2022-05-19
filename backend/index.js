@@ -93,6 +93,7 @@ async function addPost(title, content, file) {
   };
   client.query(query, (err, res) => {
     if (err) {
+      console.log(err.stack);
       throw new Error(err.stack);
     } else {
       return "post was created";
@@ -164,18 +165,18 @@ app.post("/posts", upload.single("file"), (req, res) => {
   const { title, content } = req.body;
   const file = req.file ? req.file : null;
 
-  if (!title & !content) {
+  if (!title || !content || !file) {
     res.status(200).send({
       status: "failed",
-      message: "text and title field cant be empty",
+      message: "text, title and file field cant be empty",
     });
+  } else {
+    addPost(title, content, file)
+      .then((responce) => res.send({ status: "success", data: responce }))
+      .catch((err) =>
+        res.status(200).send({ status: "failed", message: err.message })
+      );
   }
-
-  addPost(title, content, file)
-    .then((responce) => res.send({ status: "success", data: responce }))
-    .catch((err) =>
-      res.status(500).send({ status: "failed", message: err.message })
-    );
 });
 
 app.post("/comments/", upload.single("file"), (req, res) => {
@@ -183,14 +184,16 @@ app.post("/comments/", upload.single("file"), (req, res) => {
   const file = req.file ? req.file : null;
 
   if (!content) {
-    res.status(200).send({ status: "failed", message: "Text cant be empty" });
+    res
+      .status(200)
+      .send({ status: "failed", message: "Text field cant be empty" });
+  } else {
+    addComment(thread_id, answer_to, title, content, file)
+      .then((responce) => res.send({ status: "success", data: responce }))
+      .catch((err) =>
+        res.status(500).send({ status: "failed", message: err.message })
+      );
   }
-
-  addComment(thread_id, answer_to, title, content, file)
-    .then((responce) => res.send({ status: "success", data: responce }))
-    .catch((err) =>
-      res.status(500).send({ status: "failed", message: err.message })
-    );
 });
 
 app.listen(PORT, console.log(`server is listening on PORT ${PORT}`));
