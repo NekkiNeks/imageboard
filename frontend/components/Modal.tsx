@@ -18,11 +18,11 @@ import { RootState } from "../store/index";
 interface iProps {}
 
 interface iRequest {
-  thread_id: number;
+  thread_id: number | null;
   answer_to: number[];
   title: string;
   content: string;
-  image: File;
+  image: File | null;
 }
 
 //import components
@@ -39,24 +39,36 @@ export default function Modal({}: iProps) {
     try {
       e.preventDefault();
       dispatch(setLoading({ loading: true }));
+
+      const request: iRequest = {
+        thread_id: modal.data.thread_id,
+        answer_to: modal.data.answer_to,
+        title: modal.data.title,
+        content: modal.data.content,
+        image: file,
+      };
+
       console.log(modal.data);
       const formData = new FormData();
-      formData.append("file", file as Blob);
-      formData.append("title", modal.data.title);
-      formData.append("content", modal.data.content);
-      if (modal.data.thread_id) {
-        formData.append("thread_id", modal.data.thread_id.toString());
+      formData.append("file", request.image as Blob);
+      formData.append("title", request.title);
+      formData.append("content", request.content);
+      if (request.thread_id) {
+        formData.append("thread_id", request.thread_id.toString());
+      } else {
+        formData.append("thread_id", "NULL");
       }
       formData.append("answer_to", modal.data.answer_to.toString());
+      // send request
       const res = await axios({
         method: "POST",
         url: "http://localhost:4000/comments",
         data: formData,
       });
       console.log(res);
-
       dispatch(setLoading({ loading: false }));
-      // dispatch(setDefault());
+      dispatch(setDefault());
+      dispatch(setShow({ show: true }));
     } catch (error) {
       if (error instanceof Error) {
         dispatch(setLoading({ loading: false }));
@@ -68,7 +80,7 @@ export default function Modal({}: iProps) {
   }
 
   function handleClose() {
-    dispatch(setShow({ show: false }));
+    dispatch(setDefault());
   }
 
   function handleChange(
@@ -102,6 +114,7 @@ export default function Modal({}: iProps) {
             );
           })}
         </div>
+        <p>thread id: {modal.data.thread_id}</p>
         <label htmlFor="title">Title:</label>
         <input
           disabled={modal.loading ? true : false}
@@ -142,6 +155,7 @@ export default function Modal({}: iProps) {
 //styles
 
 const Container = styled.div`
+  background-color: #fff;
   width: 400px;
   border: 1px solid black;
   position: fixed;
@@ -154,11 +168,14 @@ const Form = styled.form`
   flex-direction: column;
   grid-gap: 5px;
   padding: 1rem;
-  background-color: #fff;
 `;
 
 const ErrorBlock = styled.div`
   background-color: #ff7979;
+
+  p {
+    margin: auto;
+  }
 `;
 
 const Answers = styled.div`
