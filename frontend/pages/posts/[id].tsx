@@ -5,7 +5,7 @@ import styled from "styled-components";
 //redux
 import { useSelector, useDispatch } from "react-redux";
 import { setCurrentPost, setComments } from "../../store/postsSlice";
-import { setShow } from "../../store/modalSlice";
+import { setPostId, setShow } from "../../store/modalSlice";
 
 //types
 import type { iPost } from "../../types/types";
@@ -60,13 +60,16 @@ export default function Post({}: iProps) {
           <button
             onClick={() => {
               dispatch(setShow({ show: true }));
+              dispatch(setPostId({ id: currentPost.id }));
             }}
           >
             answer
           </button>
           {comments &&
             comments.map((item) => {
-              return <Comment {...item} key={item.id} />;
+              return (
+                <Comment {...item} key={item.id} thread_id={currentPost.id} />
+              );
             })}
         </GlobalContainer>
       </Container>

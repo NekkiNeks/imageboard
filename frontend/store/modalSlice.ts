@@ -37,6 +37,9 @@ export const modalSlice = createSlice({
         state.data.answer_to = [...state.data.answer_to, action.payload.id];
       }
     },
+    setPostId: (state, action: PayloadAction<{ id: number | null }>) => {
+      state.data.thread_id = action.payload.id;
+    },
     removeId: (state, action: PayloadAction<{ id: number }>) => {
       const filtered = state.data.answer_to.filter(
         (id) => id !== action.payload.id
@@ -74,6 +77,7 @@ export const modalSlice = createSlice({
 export const {
   setData,
   addId,
+  setPostId,
   removeId,
   setShow,
   setLoading,

@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 //redux
 import { useSelector, useDispatch } from "react-redux";
-import { setData, setShow, addId } from "../store/modalSlice";
+import { setPostId, setShow, addId } from "../store/modalSlice";
 
 //types
 import type { iComment } from "../types/types";
@@ -20,6 +20,7 @@ export default function Comment({
   image,
   answer_to,
   answers,
+  thread_id,
 }: iProps) {
   const dispatch = useDispatch();
   const modal = useSelector((store: RootState) => {
@@ -30,12 +31,7 @@ export default function Comment({
   });
 
   function handleAnswer() {
-    dispatch(
-      setData({
-        ...modal.data,
-        thread_id: posts.currentPost ? posts.currentPost.id : null,
-      })
-    ); // change!!
+    dispatch(setPostId({ id: thread_id }));
     dispatch(addId({ id: id }));
     dispatch(setShow({ show: true }));
   }
