@@ -11,10 +11,12 @@ import {
   setDefault,
   removeId,
 } from "../store/modalSlice";
+import { addComment } from "../store/postsSlice";
 import { useSelector, useDispatch } from "react-redux";
 
 //types
 import { RootState } from "../store/index";
+import { iComment } from "../types/types";
 interface iProps {}
 
 interface iRequest {
@@ -75,8 +77,19 @@ export default function Modal({}: iProps) {
       if (res.data.status === "failed") {
         throw new Error(res.data.message);
       }
+      // const newComment: iComment = {
+      //   answer_to: request.answer_to,
+      //   answers: [],
+      //   title: request.title,
+      //   time: res.time,
+      //   image: "linktoimage",
+      //   content: request.content,
+      //   id: 0,
+      //   thread_id: request.thread_id ? request.thread_id : 0,
+      // };
       dispatch(setLoading({ loading: false }));
       dispatch(setDefault());
+      // dispatch(addComment({ comment: newComment }));
       dispatch(setShow({ show: true }));
       setFileToDefault();
     } catch (error) {

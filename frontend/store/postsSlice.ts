@@ -34,6 +34,9 @@ export const postsSlice = createSlice({
     setComments: (state, action: PayloadAction<iComment[]>) => {
       state.comments = action.payload;
     },
+    addComment: (state, action: PayloadAction<{ comment: iComment }>) => {
+      state.comments.push(action.payload.comment);
+    },
     setLoading: (state, action: PayloadAction<boolean>) => {
       state.loading = action.payload;
     },
@@ -50,6 +53,7 @@ export const {
   setPosts,
   setCurrentPost,
   setComments,
+  addComment,
   setLoading,
   setError,
   setErrorMessage,

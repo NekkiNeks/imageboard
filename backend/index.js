@@ -105,34 +105,50 @@ async function addComment(thread_id, answer_to, title, content, file) {
   let answers = answer_to.length > 0 ? answer_to.split(",") : "";
   //SQL querie
   const query = {
-    text: "INSERT INTO comments (time, title, content, image, thread_id) VALUES ($1, $2, $3, $4, $5) RETURNING id",
+    text: "INSERT INTO comments (time, title, content, image, thread_id) VALUES ($1, $2, $3, $4, $5) RETURNING id, time",
     values: ["NOW()", title, content, file ? file.path : null, thread_id],
   };
 
   //query for comment
-  client.query(query, (err, res) => {
-    if (err) {
-      console.log(err.stack);
-      throw new Error(err.stack);
-    } else {
-      //loop for comment answers
-      const comment_id = res.rows[0].id;
-      for (let answer_to of answers) {
-        const answerQuery = {
-          text: "INSERT INTO commentsrelations (comment_id, answer_to) VALUES ($1, $2)",
-          values: [comment_id, answer_to],
-        };
-        client.query(answerQuery, (err, res) => {
-          if (err) {
-            console.log(err);
-          } else {
-            console.log(`answer to ${answer_to} added!`);
-          }
-        });
-      }
-    }
-  });
-  return `post was posted`;
+  // await client.query(query, (err, res) => {
+  //   if (err) {
+  //     console.log(err.stack);
+  //     throw new Error(err.stack);
+  //   } else {
+  //     //loop for comment answers
+  //     const comment_id = res.rows[0].id;
+  //     const time = res.rows[0].time;
+  //     for (let answer_to of answers) {
+  //       const answerQuery = {
+  //         text: "INSERT INTO commentsrelations (comment_id, answer_to) VALUES ($1, $2)",
+  //         values: [comment_id, answer_to],
+  //       };
+  //       client.query(answerQuery, (err, res) => {
+  //         if (err) {
+  //           console.log(err);
+  //         } else {
+  //           console.log(`answer to ${answer_to} added!`);
+  //         }
+  //       });
+  //     }
+  //   }
+  // });
+
+  const res = await client.query(query);
+  const { id, time } = res.rows[0];
+  for (let answer_to of answers) {
+    const answerQuery = {
+      text: "INSERT INTO commentsrelations (comment_id, answer_to) VALUES ($1, $2)",
+      values: [id, answer_to],
+    };
+    client
+      .query(answerQuery)
+      .then((responce) => console.log(`answer for ${answer_to}`))
+      .catch((err) => console.log(err));
+  }
+  const responce = { id, time };
+  console.log(responce);
+  return responce;
 }
 
 app.get("/posts/", (req, res) => {
@@ -189,7 +205,19 @@ app.post("/comments/", upload.single("file"), (req, res) => {
       .send({ status: "failed", message: "Text field cant be empty" });
   } else {
     addComment(thread_id, answer_to, title, content, file)
-      .then((responce) => res.send({ status: "success", data: responce }))
+      .then((responce) => {
+        console.log(responce);
+        res.send({
+          status: "success",
+          data: {
+            message: responce.message,
+            image: file ? file.path : null,
+            thread_id: thread_id,
+            id: responce.id,
+            time: responce.time,
+          },
+        });
+      })
       .catch((err) =>
         res.status(500).send({ status: "failed", message: err.message })
       );

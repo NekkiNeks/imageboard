@@ -26,6 +26,8 @@ export default function Comment({
   answers,
   thread_id,
 }: iProps) {
+  const rightTime = new Date(time).toLocaleString("en-GB");
+
   const dispatch = useDispatch();
   const modal = useSelector((store: RootState) => {
     return store.modal;
@@ -35,16 +37,20 @@ export default function Comment({
   });
 
   function handleAnswer() {
-    dispatch(setPostId({ id: thread_id }));
     dispatch(addId({ id: id }));
-    dispatch(setShow({ show: true }));
+    if (modal.data.thread_id !== thread_id) {
+      dispatch(setPostId({ id: thread_id }));
+    }
+    if (!modal.show) {
+      dispatch(setShow({ show: true }));
+    }
   }
 
   return (
     <article className={styles.container} id={id.toString()}>
       <div className={styles.infoContainer}>
         <p>id: {id}</p>
-        <p>Posted: {time}</p>
+        <p>Posted: {rightTime}</p>
         {answer_to.length > 0 && (
           <div className={styles.answersContainer}>
             <p>Answer to:</p>
