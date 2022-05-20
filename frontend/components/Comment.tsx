@@ -41,7 +41,7 @@ export default function Comment({
   }
 
   return (
-    <article className={styles.container}>
+    <article className={styles.container} id={id.toString()}>
       <div className={styles.infoContainer}>
         <p>id: {id}</p>
         <p>Posted: {time}</p>

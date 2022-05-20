@@ -9,7 +9,6 @@
 .infoContainer {
   background-color: #aff;
   margin-bottom: 1rem;
-  /* display: flex; */
 }
 
 .infoContainer p {
@@ -46,6 +45,8 @@
 }
 
 .content {
+  width: 100%;
+  background-color: #ffa;
 }
 
 .answerButton {
