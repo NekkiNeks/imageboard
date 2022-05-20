@@ -44,10 +44,10 @@ export default function Post({}: iProps) {
   }
 
   useEffect(() => {
-    if (typeof id === "string") {
+    if (typeof id === "string" && id) {
       getPost(id);
+      dispatch(setDefault());
     }
-    dispatch(setDefault());
   }, [id]);
 
   if (currentPost) {
