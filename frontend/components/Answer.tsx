@@ -11,10 +11,18 @@ type iProps = {
 //import components
 
 export default function Answer({ id }: iProps) {
-  const link = `#${id}`;
+  function clickHandle(id: string) {
+    const target = document.getElementById(id);
+    if (target) {
+      window.scrollTo({
+        top: target.offsetTop,
+        behavior: "smooth",
+      });
+    }
+  }
   return (
     <div className={styles.container}>
-      <a href={link}>{id}</a>
+      <span onClick={() => clickHandle(id.toString())}>{id}</span>
     </div>
   );
 }

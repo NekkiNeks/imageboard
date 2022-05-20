@@ -37,6 +37,7 @@ export default function Modal({}: iProps) {
 
   const [file, setFile] = useState<null | File>(null);
   const fileRef = useRef<HTMLInputElement>(null);
+
   async function handleSubmit(e: FormEvent) {
     try {
       e.preventDefault();
@@ -77,19 +78,22 @@ export default function Modal({}: iProps) {
       if (res.data.status === "failed") {
         throw new Error(res.data.message);
       }
-      // const newComment: iComment = {
-      //   answer_to: request.answer_to,
-      //   answers: [],
-      //   title: request.title,
-      //   time: res.time,
-      //   image: "linktoimage",
-      //   content: request.content,
-      //   id: 0,
-      //   thread_id: request.thread_id ? request.thread_id : 0,
-      // };
+      const data = res.data.data;
+      const newComment: iComment = {
+        answer_to: request.answer_to,
+        answers: [],
+        title: request.title,
+        time: data.postInfo.time,
+        image: data.postInfo.image,
+        content: request.content,
+        id: data.postInfo.id,
+        thread_id: data.postInfo.thread_id,
+      };
+      console.log(newComment);
+
       dispatch(setLoading({ loading: false }));
       dispatch(setDefault());
-      // dispatch(addComment({ comment: newComment }));
+      dispatch(addComment({ comment: newComment }));
       dispatch(setShow({ show: true }));
       setFileToDefault();
     } catch (error) {

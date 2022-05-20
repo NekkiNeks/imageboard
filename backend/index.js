@@ -108,32 +108,7 @@ async function addComment(thread_id, answer_to, title, content, file) {
     text: "INSERT INTO comments (time, title, content, image, thread_id) VALUES ($1, $2, $3, $4, $5) RETURNING id, time",
     values: ["NOW()", title, content, file ? file.path : null, thread_id],
   };
-
-  //query for comment
-  // await client.query(query, (err, res) => {
-  //   if (err) {
-  //     console.log(err.stack);
-  //     throw new Error(err.stack);
-  //   } else {
-  //     //loop for comment answers
-  //     const comment_id = res.rows[0].id;
-  //     const time = res.rows[0].time;
-  //     for (let answer_to of answers) {
-  //       const answerQuery = {
-  //         text: "INSERT INTO commentsrelations (comment_id, answer_to) VALUES ($1, $2)",
-  //         values: [comment_id, answer_to],
-  //       };
-  //       client.query(answerQuery, (err, res) => {
-  //         if (err) {
-  //           console.log(err);
-  //         } else {
-  //           console.log(`answer to ${answer_to} added!`);
-  //         }
-  //       });
-  //     }
-  //   }
-  // });
-
+  
   const res = await client.query(query);
   const { id, time } = res.rows[0];
   for (let answer_to of answers) {
@@ -143,7 +118,7 @@ async function addComment(thread_id, answer_to, title, content, file) {
     };
     client
       .query(answerQuery)
-      .then((responce) => console.log(`answer for ${answer_to}`))
+      .then(() => console.log(`answer for ${answer_to}`))
       .catch((err) => console.log(err));
   }
   const responce = { id, time };
@@ -211,10 +186,12 @@ app.post("/comments/", upload.single("file"), (req, res) => {
           status: "success",
           data: {
             message: responce.message,
-            image: file ? file.path : null,
-            thread_id: thread_id,
-            id: responce.id,
-            time: responce.time,
+            postInfo: {
+              image: file ? file.path : null,
+              thread_id: thread_id,
+              id: responce.id,
+              time: responce.time,
+            },
           },
         });
       })
