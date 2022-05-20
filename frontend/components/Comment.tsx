@@ -1,6 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 
+//styles
+import styles from "../styles/Comment.module.css";
+
 //redux
 import { useSelector, useDispatch } from "react-redux";
 import { setPostId, setShow, addId } from "../store/modalSlice";
@@ -11,6 +14,7 @@ import { RootState } from "../store";
 interface iProps extends iComment {}
 
 //import components
+import Answer from "./Answer";
 
 export default function Comment({
   id,
@@ -37,34 +41,37 @@ export default function Comment({
   }
 
   return (
-    <Container>
-      {image && <Image src={image} alt="image" />}
-      <p>id: {id}</p>
-      <p>{time}</p>
-      <h3>{title}</h3>
-      <p>{content}</p>
-      <p>answer to:</p>
-      {answer_to.map((id) => {
-        return <p>{id}</p>;
-      })}
-      <p>answers:</p>
-      {answers.map((id) => {
-        return <p>{id}</p>;
-      })}
-      <button onClick={handleAnswer}>answer</button>
-    </Container>
+    <article className={styles.container}>
+      <div className={styles.infoContainer}>
+        <p>id: {id}</p>
+        <p>Posted: {time}</p>
+        {answer_to.length > 0 && (
+          <div className={styles.answersContainer}>
+            <p>Answer to:</p>
+            {answer_to.map((id) => {
+              return <Answer id={id} key={id} />;
+            })}
+          </div>
+        )}
+      </div>
+      <div className={styles.contentContainer}>
+        {image && <img className={styles.image} src={image} alt="image" />}
+        <div className={styles.content}>
+          {title && <h3>{title}</h3>}
+          <p>{content}</p>
+        </div>
+      </div>
+      {answers.length > 0 && (
+        <div className={styles.answersContainer}>
+          <p>Answers:</p>
+          {answers.map((id) => {
+            return <Answer id={id} key={id} />;
+          })}
+        </div>
+      )}
+      <button className={styles.answerButton} onClick={handleAnswer}>
+        Answer
+      </button>
+    </article>
   );
 }
-
-//styles
-const Container = styled.div`
-  background-color: #eee;
-  border: 1px solid black;
-  margin: 10px;
-  margin-left: 30px;
-  padding: 10px;
-`;
-
-const Image = styled.img`
-  width: 30%;
-`;
