@@ -4,7 +4,7 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const bodyParser = require("body-parser");
-const PORT = 4000;
+const { PORT, postgresCreds } = require("./appconfig");
 
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -12,13 +12,7 @@ app.use(bodyParser.json());
 app.use(express.static("./public")); // create public folder
 
 const { Client } = require("pg");
-const client = new Client({
-  host: "localhost",
-  user: "postgres",
-  port: 5555,
-  password: "mysecretpassword",
-  database: "imageboard",
-});
+const client = new Client(postgresCreds);
 
 client.connect();
 
@@ -110,7 +104,7 @@ async function getComments(id) {
 async function addPost(title, content, file) {
   const query = {
     text: "INSERT INTO posts (time, title, content, image) VALUES ($1, $2, $3, $4) RETURNING id, time",
-    values: ["NOW()", title, content, file ? file.path : null],
+    values: ["NOW()", title, content, file ? "uploads/" + file.filename : null],
   };
   const res = await client.query(query);
   const { id, time } = res.rows[0];
@@ -123,7 +117,13 @@ async function addComment(thread_id, answer_to, title, content, file) {
   //SQL querie
   const query = {
     text: "INSERT INTO comments (time, title, content, image, thread_id) VALUES ($1, $2, $3, $4, $5) RETURNING id, time",
-    values: ["NOW()", title, content, file ? file.path : null, thread_id],
+    values: [
+      "NOW()",
+      title,
+      content,
+      file ? "uploads/" + file.filename : null,
+      thread_id,
+    ],
   };
 
   const res = await client.query(query);
@@ -182,7 +182,7 @@ app.post("/posts", upload.single("file"), (req, res) => {
     addPost(title, content, file)
       .then((responce) => {
         const responceData = {
-          image: file ? file.path : null,
+          image: file ? "uploads/" + file.filename : null,
           id: responce.id,
           time: responce.time,
         };
@@ -207,7 +207,7 @@ app.post("/comments/", upload.single("file"), (req, res) => {
       .then((responce) => {
         console.log(responce);
         const responceData = {
-          image: file ? file.path : null,
+          image: file ? "uploads/" + file.filename : null,
           thread_id: thread_id,
           id: responce.id,
           time: responce.time,
