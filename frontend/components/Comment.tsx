@@ -26,7 +26,7 @@ export default function Comment({
   answers,
   thread_id,
 }: iProps) {
-  const rightTime = new Date(time).toLocaleString("en-GB");
+  const timeString = new Date(time).toLocaleString();
 
   const dispatch = useDispatch();
   const modal = useSelector((store: RootState) => {
@@ -50,7 +50,7 @@ export default function Comment({
     <article className={styles.container} id={id.toString()}>
       <div className={styles.infoContainer}>
         <p>id: {id}</p>
-        <p>Posted: {rightTime}</p>
+        <p>Posted: {timeString}</p>
         {answer_to.length > 0 && (
           <div className={styles.answersContainer}>
             <p>Answer to:</p>

@@ -1,6 +1,8 @@
 import React, { useEffect } from "react";
 import { useRouter } from "next/router";
-import styled from "styled-components";
+
+//styles
+import styles from "../../styles/PostPage.module.css";
 
 //redux
 import { useSelector, useDispatch } from "react-redux";
@@ -52,20 +54,23 @@ export default function Post({}: iProps) {
 
   if (currentPost) {
     return (
-      <Container>
+      <div className={styles.container}>
         <GlobalContainer>
           {modal.show && <Modal />}
-          <h1>{currentPost.title}</h1>
-          <p>{currentPost.content}</p>
-          <p>{currentPost.time}</p>
-          <button
-            onClick={() => {
-              dispatch(setShow({ show: true }));
-              dispatch(setPostId({ id: currentPost.id }));
-            }}
-          >
-            answer
-          </button>
+          <header className={styles.postContainer}>
+            <p>Posted: {new Date(currentPost.time).toLocaleString()}</p>
+            <h1>{currentPost.title}</h1>
+            <p>{currentPost.content}</p>
+            <button
+              className={styles.button}
+              onClick={() => {
+                dispatch(setShow({ show: true }));
+                dispatch(setPostId({ id: currentPost.id }));
+              }}
+            >
+              Answer
+            </button>
+          </header>
           {comments &&
             comments.map((item) => {
               return (
@@ -73,14 +78,9 @@ export default function Post({}: iProps) {
               );
             })}
         </GlobalContainer>
-      </Container>
+      </div>
     );
   } else {
     return <div>there is no post</div>;
   }
 }
-
-//styles
-const Container = styled.div`
-  padding: 1rem;
-`;

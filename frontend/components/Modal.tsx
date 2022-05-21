@@ -174,13 +174,17 @@ export default function Modal({}: iProps) {
         </div>
       )}
       <form className={styles.form} action="POST" onSubmit={handleSubmit}>
-        <p>answer to: </p>
-        <div>
-          {modal.data.answer_to.map((answer) => {
-            return <Answer id={answer} key={answer} modal={true} />;
-          })}
-        </div>
-        <p>thread id: {modal.data.thread_id}</p>
+        {modal.data.answer_to.length > 0 && (
+          <div className={styles.answersContainer}>
+            <p>Answer to: </p>
+            <div>
+              {modal.data.answer_to.map((answer) => {
+                return <Answer id={answer} key={answer} modal={true} />;
+              })}
+            </div>
+          </div>
+        )}
+        <p>Post id: {modal.data.thread_id}</p>
         <label htmlFor="title">Title:</label>
         <input
           disabled={modal.loading ? true : false}
@@ -198,7 +202,7 @@ export default function Modal({}: iProps) {
           onChange={handleChange}
         />
 
-        <label htmlFor="file">file:</label>
+        <label htmlFor="file">File:</label>
         <input
           disabled={modal.loading ? true : false}
           type="file"
@@ -210,7 +214,9 @@ export default function Modal({}: iProps) {
             setFile(file);
           }}
         />
-        <div onClick={setFileToDefault}>delete image</div>
+        <div className={styles.deleteButton} onClick={setFileToDefault}>
+          Delete image
+        </div>
         <button type="submit" disabled={modal.loading ? true : false}>
           Send
         </button>

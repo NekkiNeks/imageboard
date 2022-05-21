@@ -1,4 +1,5 @@
 .container {
+  margin-top: 1rem;
   background-color: #fff;
   width: 400px;
   border: 1px solid black;
@@ -16,4 +17,8 @@
   flex-direction: column;
   grid-gap: 5px;
   padding: 1rem;
+}
+
+.deleteButton {
+  cursor: pointer;
 }

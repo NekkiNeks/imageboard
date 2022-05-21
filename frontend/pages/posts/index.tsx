@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
+//styles
+import styles from "../../styles/IndexPage.module.css";
+
 //types
 import { RootState } from "../../store";
 type iProps = {};
@@ -13,6 +16,7 @@ import { setDefault, setShow } from "../../store/modalSlice";
 //import components
 import Thread from "../../components/Thread";
 import Modal from "../../components/Modal";
+import GlobalContainer from "../../components/styled/GlobalContainer";
 
 export default function Posts({}: iProps) {
   const dispatch = useDispatch();
@@ -33,21 +37,26 @@ export default function Posts({}: iProps) {
   }, []);
 
   return (
-    <Container>
-      {modal.show && <Modal />}
-      <h1>Here will be a list of posts</h1>
-      <button
-        onClick={() => {
-          dispatch(setShow({ show: true }));
-        }}
-      >
-        create thread
-      </button>
-      {posts &&
-        posts.map((post) => {
-          return <Thread {...post} key={post.id} />;
-        })}
-    </Container>
+    <div className={styles.container}>
+      <GlobalContainer>
+        {modal.show && <Modal />}
+        <div className={styles.headerContainer}>
+          <h1 className={styles.header}>This is the last posts</h1>
+        </div>
+        <button
+          className={styles.button}
+          onClick={() => {
+            dispatch(setShow({ show: true }));
+          }}
+        >
+          create thread
+        </button>
+        {posts &&
+          posts.map((post) => {
+            return <Thread {...post} key={post.id} />;
+          })}
+      </GlobalContainer>
+    </div>
   );
 }
 

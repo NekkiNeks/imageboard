@@ -28,7 +28,7 @@ export default function Answer({ id, modal }: iProps) {
   }
   return (
     <div className={styles.container}>
-      <span onClick={() => clickHandle(id.toString())}>{id} </span>
+      <span onClick={() => clickHandle(id.toString())}> {id} </span>
       {modal && (
         <button onClick={() => dispatch(removeId({ id: id }))}>delete</button>
       )}
