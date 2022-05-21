@@ -11,10 +11,11 @@ import {
   setDefault,
   removeId,
 } from "../store/modalSlice";
-import { addComment } from "../store/postsSlice";
+import { addComment, addPost } from "../store/postsSlice";
 import { useSelector, useDispatch } from "react-redux";
 
 //types
+import { iPost } from "../types/types";
 import { RootState } from "../store/index";
 import { iComment } from "../types/types";
 interface iProps {}
@@ -51,22 +52,6 @@ export default function Modal({}: iProps) {
         content: modal.data.content,
         image: file,
       };
-      //create formData
-      // const formData = new FormData();
-      // formData.append("file", request.image as Blob);
-      // formData.append("title", request.title);
-      // formData.append("content", request.content);
-      // if (request.thread_id) {
-      //   formData.append("thread_id", request.thread_id.toString());
-      // } else {
-      //   formData.append("thread_id", "");
-      // }
-      // if (modal.data.answer_to.length > 0) {
-      //   formData.append("answer_to", modal.data.answer_to.toString());
-      // } else {
-      //   formData.append("answer_to", "");
-      // }
-      // send request
       if (request.thread_id) {
         await sendComment(request);
       } else {
@@ -121,6 +106,17 @@ export default function Modal({}: iProps) {
     if (res.data.status === "failed") {
       throw new Error(res.data.message);
     }
+    console.log(res.data);
+    const dataFromResponce = res.data.data;
+    const newPost: iPost = {
+      id: dataFromResponce.id,
+      time: dataFromResponce.time,
+      title: request.title,
+      content: request.content,
+      image: dataFromResponce.image,
+      comments: 0,
+    };
+    dispatch(addPost({ post: newPost }));
     return res;
   }
 
@@ -132,12 +128,12 @@ export default function Modal({}: iProps) {
       data: formdata,
       validateStatus: () => true,
     });
-    console.log(res);
+    console.log(res.data);
 
     if (res.data.status === "failed") {
       throw new Error(res.data.message);
     }
-    const dataFromResponce = res.data.data.postInfo;
+    const dataFromResponce = res.data.data;
     const newComment: iComment = {
       answer_to: request.answer_to,
       answers: [],

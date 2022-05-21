@@ -109,19 +109,13 @@ async function getComments(id) {
 
 async function addPost(title, content, file) {
   const query = {
-    text: "INSERT INTO posts (time, title, content, image) VALUES ($1, $2, $3, $4)",
+    text: "INSERT INTO posts (time, title, content, image) VALUES ($1, $2, $3, $4) RETURNING id, time",
     values: ["NOW()", title, content, file ? file.path : null],
   };
   const res = await client.query(query);
-  return "post was created";
-  // client.query(query, (err, res) => {
-  //   if (err) {
-  //     console.log(err.stack);
-  //     throw new Error(err.stack);
-  //   } else {
-  //     return "post was created";
-  //   }
-  // });
+  const { id, time } = res.rows[0];
+  const responce = { id, time };
+  return responce;
 }
 
 async function addComment(thread_id, answer_to, title, content, file) {
@@ -186,7 +180,14 @@ app.post("/posts", upload.single("file"), (req, res) => {
     });
   } else {
     addPost(title, content, file)
-      .then((responce) => res.send({ status: "success", data: responce }))
+      .then((responce) => {
+        const responceData = {
+          image: file ? file.path : null,
+          id: responce.id,
+          time: responce.time,
+        };
+        res.send({ status: "success", data: responceData });
+      })
       .catch((err) =>
         res.status(200).send({ status: "failed", message: err.message })
       );
@@ -213,7 +214,7 @@ app.post("/comments/", upload.single("file"), (req, res) => {
         };
         res.send({
           status: "success",
-          data: { postInfo: responceData },
+          data: responceData,
         });
       })
       .catch((err) =>

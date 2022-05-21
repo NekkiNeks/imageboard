@@ -28,6 +28,9 @@ export const postsSlice = createSlice({
     setPosts: (state, action: PayloadAction<iPost[]>) => {
       state.posts = action.payload;
     },
+    addPost: (state, action: PayloadAction<{ post: iPost }>) => {
+      state.posts = [action.payload.post, ...state.posts];
+    },
     setCurrentPost: (state, action: PayloadAction<iPost>) => {
       state.currentPost = action.payload;
     },
@@ -51,6 +54,7 @@ export const postsSlice = createSlice({
 
 export const {
   setPosts,
+  addPost,
   setCurrentPost,
   setComments,
   addComment,
