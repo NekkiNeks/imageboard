@@ -18,7 +18,12 @@ const storage = multer.diskStorage({
   },
 });
 
-const upload = multer({ storage: storage }); // upload variable for multer
+const upload = multer({
+  storage: storage,
+  fileFilter: (req, file, cb) => {
+    checkFileType(file, cb);
+  },
+}); // upload variable for multer
 
 const { Client } = require("pg");
 const client = new Client({
@@ -30,6 +35,22 @@ const client = new Client({
 });
 
 client.connect();
+
+function checkFileType(file, cb) {
+  const filetypes = /jpeg|jpg|png/;
+
+  //ext check for boolean
+  const extName = filetypes.test(path.extname(file.originalname).toLowerCase());
+
+  //mimetype check for boolean
+  const mimeType = filetypes.test(file.mimetype);
+
+  if (extName && mimeType) {
+    return cb(null, true);
+  } else {
+    return cb("Only images allowed");
+  }
+}
 
 async function getPosts() {
   const res = await client.query(`SELECT * FROM posts ORDER BY time DESC`);
@@ -108,7 +129,7 @@ async function addComment(thread_id, answer_to, title, content, file) {
     text: "INSERT INTO comments (time, title, content, image, thread_id) VALUES ($1, $2, $3, $4, $5) RETURNING id, time",
     values: ["NOW()", title, content, file ? file.path : null, thread_id],
   };
-  
+
   const res = await client.query(query);
   const { id, time } = res.rows[0];
   for (let answer_to of answers) {
@@ -182,17 +203,15 @@ app.post("/comments/", upload.single("file"), (req, res) => {
     addComment(thread_id, answer_to, title, content, file)
       .then((responce) => {
         console.log(responce);
+        const responceData = {
+          image: file ? file.path : null,
+          thread_id: thread_id,
+          id: responce.id,
+          time: responce.time,
+        };
         res.send({
           status: "success",
-          data: {
-            message: responce.message,
-            postInfo: {
-              image: file ? file.path : null,
-              thread_id: thread_id,
-              id: responce.id,
-              time: responce.time,
-            },
-          },
+          data: { postInfo: responceData },
         });
       })
       .catch((err) =>
