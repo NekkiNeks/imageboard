@@ -28,6 +28,7 @@ interface iRequest {
 }
 
 //import components
+import Answer from "./Answer";
 
 export default function Modal({}: iProps) {
   const dispatch = useDispatch();
@@ -51,49 +52,28 @@ export default function Modal({}: iProps) {
         image: file,
       };
       //create formData
-      const formData = new FormData();
-      formData.append("file", request.image as Blob);
-      formData.append("title", request.title);
-      formData.append("content", request.content);
-      if (request.thread_id) {
-        formData.append("thread_id", request.thread_id.toString());
-      } else {
-        formData.append("thread_id", "");
-      }
-      if (modal.data.answer_to.length > 0) {
-        formData.append("answer_to", modal.data.answer_to.toString());
-      } else {
-        formData.append("answer_to", "");
-      }
-      const url = request.thread_id
-        ? "http://localhost:4000/comments"
-        : "http://localhost:4000/posts";
+      // const formData = new FormData();
+      // formData.append("file", request.image as Blob);
+      // formData.append("title", request.title);
+      // formData.append("content", request.content);
+      // if (request.thread_id) {
+      //   formData.append("thread_id", request.thread_id.toString());
+      // } else {
+      //   formData.append("thread_id", "");
+      // }
+      // if (modal.data.answer_to.length > 0) {
+      //   formData.append("answer_to", modal.data.answer_to.toString());
+      // } else {
+      //   formData.append("answer_to", "");
+      // }
       // send request
-      const res = await axios({
-        method: "POST",
-        url: url,
-        data: formData,
-      });
-      console.log(res);
-      if (res.data.status === "failed") {
-        throw new Error(res.data.message);
+      if (request.thread_id) {
+        await sendComment(request);
+      } else {
+        await sendPost(request);
       }
-      const data = res.data.data;
-      const newComment: iComment = {
-        answer_to: request.answer_to,
-        answers: [],
-        title: request.title,
-        time: data.postInfo.time,
-        image: data.postInfo.image,
-        content: request.content,
-        id: data.postInfo.id,
-        thread_id: data.postInfo.thread_id,
-      };
-      console.log(newComment);
-
       dispatch(setLoading({ loading: false }));
       dispatch(setDefault());
-      dispatch(addComment({ comment: newComment }));
       dispatch(setShow({ show: true }));
       setFileToDefault();
     } catch (error) {
@@ -104,6 +84,72 @@ export default function Modal({}: iProps) {
         console.warn("unhandeled error/throw in form submit!");
       }
     }
+  }
+
+  function createFormData({
+    image,
+    title,
+    content,
+    thread_id,
+    answer_to,
+  }: iRequest) {
+    const formData = new FormData();
+    formData.append("file", image as Blob);
+    formData.append("title", title);
+    formData.append("content", content);
+    if (thread_id) {
+      formData.append("thread_id", thread_id.toString());
+    } else {
+      formData.append("thread_id", "");
+    }
+    if (answer_to.length > 0) {
+      formData.append("answer_to", answer_to.toString());
+    } else {
+      formData.append("answer_to", "");
+    }
+    return formData;
+  }
+
+  async function sendPost(request: iRequest) {
+    const formdata = createFormData(request);
+    const res = await axios({
+      method: "POST",
+      url: "http://localhost:4000/posts",
+      data: formdata,
+      validateStatus: () => true,
+    });
+    if (res.data.status === "failed") {
+      throw new Error(res.data.message);
+    }
+    return res;
+  }
+
+  async function sendComment(request: iRequest) {
+    const formdata = createFormData(request);
+    const res = await axios({
+      method: "POST",
+      url: "http://localhost:4000/comments",
+      data: formdata,
+      validateStatus: () => true,
+    });
+    console.log(res);
+
+    if (res.data.status === "failed") {
+      throw new Error(res.data.message);
+    }
+    const dataFromResponce = res.data.data.postInfo;
+    const newComment: iComment = {
+      answer_to: request.answer_to,
+      answers: [],
+      title: request.title,
+      time: dataFromResponce.time,
+      image: dataFromResponce.image,
+      content: request.content,
+      id: dataFromResponce.id,
+      thread_id: dataFromResponce.thread_id,
+    };
+    dispatch(addComment({ comment: newComment }));
+    return res;
   }
 
   function setFileToDefault() {
@@ -133,14 +179,7 @@ export default function Modal({}: iProps) {
         <p>answer to: </p>
         <div>
           {modal.data.answer_to.map((answer) => {
-            return (
-              <Answer key={answer}>
-                id: {answer}{" "}
-                <button onClick={() => dispatch(removeId({ id: answer }))}>
-                  delete
-                </button>
-              </Answer>
-            );
+            return <Answer id={answer} key={answer} />;
           })}
         </div>
         <p>thread id: {modal.data.thread_id}</p>
@@ -212,11 +251,12 @@ const ErrorBlock = styled.div`
 const Answers = styled.div`
   display: flex;
   flex-wrap: nowrap;
+  //
 `;
-const Answer = styled.div`
-  display: inline-block;
-  background-color: #ffd930;
-  padding: 0.3rem;
-  margin-right: 5px;
-  margin-top: 5px;
-`;
+// const Answer = styled.div`
+//   display: inline-block;
+//   background-color: #ffd930;
+//   padding: 0.3rem;
+//   margin-right: 5px;
+//   margin-top: 5px;
+// `;

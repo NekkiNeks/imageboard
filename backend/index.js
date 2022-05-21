@@ -11,6 +11,17 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(express.static("./public")); // create public folder
 
+const { Client } = require("pg");
+const client = new Client({
+  host: "localhost",
+  user: "postgres",
+  port: 5555,
+  password: "mysecretpassword",
+  database: "imageboard",
+});
+
+client.connect();
+
 const storage = multer.diskStorage({
   destination: "./public/uploads/",
   filename: (req, file, cb) => {
@@ -25,17 +36,6 @@ const upload = multer({
   },
 }); // upload variable for multer
 
-const { Client } = require("pg");
-const client = new Client({
-  host: "localhost",
-  user: "postgres",
-  port: 5555,
-  password: "mysecretpassword",
-  database: "imageboard",
-});
-
-client.connect();
-
 function checkFileType(file, cb) {
   const filetypes = /jpeg|jpg|png/;
 
@@ -48,7 +48,7 @@ function checkFileType(file, cb) {
   if (extName && mimeType) {
     return cb(null, true);
   } else {
-    return cb("Only images allowed");
+    return cb(null, false);
   }
 }
 
@@ -112,14 +112,16 @@ async function addPost(title, content, file) {
     text: "INSERT INTO posts (time, title, content, image) VALUES ($1, $2, $3, $4)",
     values: ["NOW()", title, content, file ? file.path : null],
   };
-  client.query(query, (err, res) => {
-    if (err) {
-      console.log(err.stack);
-      throw new Error(err.stack);
-    } else {
-      return "post was created";
-    }
-  });
+  const res = await client.query(query);
+  return "post was created";
+  // client.query(query, (err, res) => {
+  //   if (err) {
+  //     console.log(err.stack);
+  //     throw new Error(err.stack);
+  //   } else {
+  //     return "post was created";
+  //   }
+  // });
 }
 
 async function addComment(thread_id, answer_to, title, content, file) {
@@ -197,7 +199,7 @@ app.post("/comments/", upload.single("file"), (req, res) => {
 
   if (!content) {
     res
-      .status(200)
+      .status(400)
       .send({ status: "failed", message: "Text field cant be empty" });
   } else {
     addComment(thread_id, answer_to, title, content, file)
@@ -215,7 +217,7 @@ app.post("/comments/", upload.single("file"), (req, res) => {
         });
       })
       .catch((err) =>
-        res.status(500).send({ status: "failed", message: err.message })
+        res.status(400).send({ status: "failed", message: err.message })
       );
   }
 });
