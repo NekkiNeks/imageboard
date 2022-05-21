@@ -1,12 +1,18 @@
 import React, { useEffect } from "react";
 import { useRouter } from "next/router";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 //styles
 import styles from "../../styles/PostPage.module.css";
 
 //redux
 import { useSelector, useDispatch } from "react-redux";
-import { setCurrentPost, setComments } from "../../store/postsSlice";
+import {
+  setCurrentPost,
+  setComments,
+  setLoading,
+  setError,
+} from "../../store/postsSlice";
 import { setDefault, setPostId, setShow } from "../../store/modalSlice";
 
 //types
@@ -26,7 +32,7 @@ export default function Post({}: iProps) {
   const modal = useSelector((store: RootState) => {
     return store.modal;
   });
-  const { currentPost, comments } = useSelector((store: RootState) => {
+  const posts = useSelector((store: RootState) => {
     return store.posts;
   });
   //^boilerplate
@@ -37,50 +43,85 @@ export default function Post({}: iProps) {
     dispatch(setComments(data.data));
   }
 
-  async function getPost(id: string) {
-    const res = await fetch(`http://localhost:4000/posts/${id}`);
-    const data = await res.json();
-    const post: iPost = data.data[0];
-    dispatch(setCurrentPost(post));
-    getComments(id);
+  async function getData(id: string) {
+    try {
+      dispatch(setLoading({ loading: true }));
+      dispatch(setError({ error: false, errorMessage: null }));
+      const res = await fetch(`http://localhost:4000/posts/${id}`);
+      const data = await res.json();
+      const post: iPost = data.data[0];
+      dispatch(setCurrentPost(post));
+      getComments(id);
+      dispatch(setLoading({ loading: false }));
+      dispatch(setDefault());
+    } catch (err) {
+      if (err instanceof Error) {
+        dispatch(setError({ error: true, errorMessage: err.message }));
+      } else {
+        console.log(err);
+      }
+    }
   }
 
   useEffect(() => {
     if (typeof id === "string" && id) {
-      getPost(id);
-      dispatch(setDefault());
+      getData(id);
     }
   }, [id]);
 
-  if (currentPost) {
+  if (posts.loading) {
+    return (
+      <div className={styles.container}>
+        <div className={styles.loaderContainer}>
+          <AiOutlineLoading3Quarters
+            size={"10%"}
+            color={"#555"}
+            className={styles.loader}
+          />
+        </div>
+      </div>
+    );
+  } else if (posts.error) {
+    return (
+      <div className={styles.container}>
+        <main>
+          <div className={styles.errorContainer}>
+            <h1 className={styles.errorHeader}>Sorry, but there is an error</h1>
+            <p className={styles.errorMessage}>
+              {posts.errorMessage ? posts.errorMessage : "unknown error"}
+            </p>
+          </div>
+        </main>
+      </div>
+    );
+  } else if (posts.currentPost) {
+    const { time, title, content, id } = posts.currentPost;
     return (
       <div className={styles.container}>
         <GlobalContainer>
           {modal.show && <Modal />}
           <header className={styles.postContainer}>
-            <p>Posted: {new Date(currentPost.time).toLocaleString()}</p>
-            <h1>{currentPost.title}</h1>
-            <p>{currentPost.content}</p>
+            <p className={styles.postTime}>
+              Posted: {new Date(time).toLocaleString()}
+            </p>
+            <h1 className={styles.postHeader}>{title}</h1>
+            <p className={styles.postContent}>{content}</p>
             <button
               className={styles.button}
               onClick={() => {
                 dispatch(setShow({ show: true }));
-                dispatch(setPostId({ id: currentPost.id }));
+                dispatch(setPostId({ id: id }));
               }}
             >
               Answer
             </button>
           </header>
-          {comments &&
-            comments.map((item) => {
-              return (
-                <Comment {...item} key={item.id} thread_id={currentPost.id} />
-              );
+          {posts.comments &&
+            posts.comments.map((item) => {
+              return <Comment {...item} key={item.id} thread_id={id} />;
             })}
         </GlobalContainer>
       </div>
     );
-  } else {
-    return <div>there is no post</div>;
   }
 }

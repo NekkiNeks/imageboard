@@ -40,14 +40,15 @@ export const postsSlice = createSlice({
     addComment: (state, action: PayloadAction<{ comment: iComment }>) => {
       state.comments.push(action.payload.comment);
     },
-    setLoading: (state, action: PayloadAction<boolean>) => {
-      state.loading = action.payload;
+    setLoading: (state, action: PayloadAction<{ loading: boolean }>) => {
+      state.loading = action.payload.loading;
     },
-    setError: (state, action: PayloadAction<boolean>) => {
-      state.error = action.payload;
-    },
-    setErrorMessage: (state, action: PayloadAction<string>) => {
-      state.errorMessage = action.payload;
+    setError: (
+      state,
+      action: PayloadAction<{ error: boolean; errorMessage: string | null }>
+    ) => {
+      state.error = action.payload.error;
+      state.errorMessage = action.payload.errorMessage;
     },
   },
 });
@@ -60,7 +61,6 @@ export const {
   addComment,
   setLoading,
   setError,
-  setErrorMessage,
 } = postsSlice.actions;
 
 export default postsSlice.reducer;
