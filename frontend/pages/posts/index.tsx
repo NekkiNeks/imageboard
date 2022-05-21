@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { SERVER_URL } from "../../appconfig";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 //styles
@@ -37,7 +38,7 @@ export default function Posts({}: iProps) {
       dispatch(setLoading({ loading: true }));
       dispatch(setComments([]));
       dispatch(setError({ error: false, errorMessage: null }));
-      const res = await fetch(`http://localhost:4000/posts`);
+      const res = await fetch(`${SERVER_URL}/posts`);
       const data = await res.json();
       dispatch(setPosts(data.data));
       dispatch(setLoading({ loading: false }));

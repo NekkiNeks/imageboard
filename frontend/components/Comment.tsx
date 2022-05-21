@@ -1,5 +1,5 @@
 import React from "react";
-import styled from "styled-components";
+import { SERVER_URL } from "../appconfig";
 
 //styles
 import styles from "../styles/Comment.module.css";
@@ -61,7 +61,13 @@ export default function Comment({
         )}
       </div>
       <div className={styles.contentContainer}>
-        {image && <img className={styles.image} src={image} alt="image" />}
+        {image && (
+          <img
+            className={styles.image}
+            src={`${SERVER_URL}/${image}`}
+            alt="image"
+          />
+        )}
         <div className={styles.content}>
           {title && <h3>{title}</h3>}
           <p>{content}</p>

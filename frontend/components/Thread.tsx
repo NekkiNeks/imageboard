@@ -1,4 +1,5 @@
 import React from "react";
+import { SERVER_URL } from "../appconfig";
 import Link from "next/link";
 
 //styles
@@ -36,7 +37,13 @@ export default function Thread({
         <p className={styles.answers}>Comments: {comments}</p>
       </div>
       <div className={styles.contentContainer}>
-        {image && <img className={styles.image} src={image} alt="image" />}
+        {image && (
+          <img
+            className={styles.image}
+            src={`${SERVER_URL}/${image}`}
+            alt="image"
+          />
+        )}
         <div className={styles.content}>
           <h1>{title}</h1>
           <p>{content}</p>

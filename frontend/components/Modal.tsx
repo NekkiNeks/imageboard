@@ -1,4 +1,5 @@
 import React, { useState, FormEvent, ChangeEvent, useRef } from "react";
+import { SERVER_URL } from "../appconfig";
 import axios from "axios";
 
 //styles
@@ -101,7 +102,7 @@ export default function Modal({}: iProps) {
     const formdata = createFormData(request);
     const res = await axios({
       method: "POST",
-      url: "http://localhost:4000/posts",
+      url: `${SERVER_URL}/posts`,
       data: formdata,
       validateStatus: () => true,
     });
@@ -126,7 +127,7 @@ export default function Modal({}: iProps) {
     const formdata = createFormData(request);
     const res = await axios({
       method: "POST",
-      url: "http://localhost:4000/comments",
+      url: `${SERVER_URL}/comments`,
       data: formdata,
       validateStatus: () => true,
     });

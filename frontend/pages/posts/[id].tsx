@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { SERVER_URL } from "../../appconfig";
 import { useRouter } from "next/router";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
@@ -38,7 +39,7 @@ export default function Post({}: iProps) {
   //^boilerplate
 
   async function getComments(id: string) {
-    const res = await fetch(`http://localhost:4000/comments/${id}`);
+    const res = await fetch(`${SERVER_URL}/comments/${id}`);
     const data = await res.json();
     dispatch(setComments(data.data));
   }
@@ -47,7 +48,7 @@ export default function Post({}: iProps) {
     try {
       dispatch(setLoading({ loading: true }));
       dispatch(setError({ error: false, errorMessage: null }));
-      const res = await fetch(`http://localhost:4000/posts/${id}`);
+      const res = await fetch(`${SERVER_URL}/posts/${id}`);
       const data = await res.json();
       const post: iPost = data.data[0];
       dispatch(setCurrentPost(post));
