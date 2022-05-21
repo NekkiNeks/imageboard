@@ -1,7 +1,8 @@
 import React from "react";
-import styled from "styled-components";
 import Link from "next/link";
 
+//styles
+import styles from "../styles/Thread.module.css";
 //redux
 import { setShow, setPostId } from "../store/modalSlice";
 import { useDispatch } from "react-redux";
@@ -20,44 +21,35 @@ export default function Thread({
   id,
   comments,
 }: iProps) {
-  const dispath = useDispatch();
+  const dispatch = useDispatch();
 
   function handleAnswer() {
-    dispath(setPostId({ id: id }));
-    dispath(setShow({ show: true }));
+    dispatch(setPostId({ id: id }));
+    dispatch(setShow({ show: true }));
   }
 
   return (
-    <Container>
-      {image && <Image src={image} alt="image" />}
-      <h1>{title}</h1>
-      <p>{content}</p>
-      <Time>{time}</Time>
-      <Answers>comments: {comments}</Answers>
-      <Link href={`posts/${id}`}>Enter to Thread</Link>
-      <button onClick={() => handleAnswer()}>answer</button>
-    </Container>
+    <article className={styles.container}>
+      <div className={styles.infoContainer}>
+        <p>id: {id}</p>
+        <p className={styles.time}>Posted: {time}</p>
+        <p className={styles.answers}>Comments: {comments}</p>
+      </div>
+      <div className={styles.contentContainer}>
+        {image && <img className={styles.image} src={image} alt="image" />}
+        <div className={styles.content}>
+          <h1>{title}</h1>
+          <p>{content}</p>
+        </div>
+      </div>
+      <div className={styles.buttonsContainer}>
+        <Link href={`posts/${id}`}>
+          <div className={styles.button}>Enter to Thread</div>
+        </Link>
+        <button className={styles.button} onClick={() => handleAnswer()}>
+          answer
+        </button>
+      </div>
+    </article>
   );
 }
-
-//styles
-
-const Container = styled.div`
-  margin: 10px auto;
-  padding: 1rem;
-  width: 70%;
-  background-color: #ffe;
-  border: 1px solid black;
-`;
-
-const Image = styled.img`
-  width: 30%;
-`;
-
-const Time = styled.p`
-  font-size: 12px;
-`;
-
-const Answers = styled.p`
-  font-size: 10px;
-`;

@@ -1,0 +1,46 @@
+.container {
+  margin: 10px auto;
+  padding: 1rem;
+  width: 70%;
+  background-color: #eee;
+  border: 1px solid black;
+}
+
+.infoContainer {
+  margin-bottom: 1rem;
+}
+
+.contentContainer {
+  display: flex;
+  margin-bottom: 1rem;
+}
+
+.image {
+  max-width: 15%;
+  max-height: 200px;
+  margin-right: 1rem;
+}
+
+.buttonsContainer {
+}
+
+.button {
+  cursor: pointer;
+  display: inline-block;
+  background-color: #fff;
+  font-size: 16px;
+  margin-right: 0.5rem;
+  padding: 0.5rem;
+  border: none;
+  border-radius: 5px;
+}
+
+.button:hover {
+  background-color: #ddd;
+}
+
+.time {
+}
+
+.answers {
+}

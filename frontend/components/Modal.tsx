@@ -1,6 +1,8 @@
 import React, { useState, FormEvent, ChangeEvent, useRef } from "react";
 import axios from "axios";
-import styled from "styled-components";
+
+//styles
+import styles from "../styles/Modal.module.css";
 
 //redux
 import {
@@ -165,17 +167,17 @@ export default function Modal({}: iProps) {
   }
 
   return (
-    <Container>
+    <div className={styles.container}>
       {modal.error && (
-        <ErrorBlock>
+        <div className={styles.errorContainer}>
           <p>there is error, message: {modal.errorMessage}.</p>
-        </ErrorBlock>
+        </div>
       )}
-      <Form action="POST" onSubmit={handleSubmit}>
+      <form className={styles.form} action="POST" onSubmit={handleSubmit}>
         <p>answer to: </p>
         <div>
           {modal.data.answer_to.map((answer) => {
-            return <Answer id={answer} key={answer} />;
+            return <Answer id={answer} key={answer} modal={true} />;
           })}
         </div>
         <p>thread id: {modal.data.thread_id}</p>
@@ -213,46 +215,7 @@ export default function Modal({}: iProps) {
           Send
         </button>
         <button onClick={handleClose}>Close</button>
-      </Form>
-    </Container>
+      </form>
+    </div>
   );
 }
-
-//styles
-
-const Container = styled.div`
-  background-color: #fff;
-  width: 400px;
-  border: 1px solid black;
-  position: fixed;
-  left: 50%;
-  transform: translateX(-50%);
-`;
-
-const Form = styled.form`
-  display: flex;
-  flex-direction: column;
-  grid-gap: 5px;
-  padding: 1rem;
-`;
-
-const ErrorBlock = styled.div`
-  background-color: #ff7979;
-
-  p {
-    margin: auto;
-  }
-`;
-
-const Answers = styled.div`
-  display: flex;
-  flex-wrap: nowrap;
-  //
-`;
-// const Answer = styled.div`
-//   display: inline-block;
-//   background-color: #ffd930;
-//   padding: 0.3rem;
-//   margin-right: 5px;
-//   margin-top: 5px;
-// `;

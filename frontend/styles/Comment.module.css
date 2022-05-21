@@ -7,7 +7,6 @@
 }
 
 .infoContainer {
-  background-color: #aff;
   margin-bottom: 1rem;
 }
 
@@ -16,9 +15,9 @@
 }
 
 .answersContainer {
-  background-color: #fdf;
   display: flex;
   align-items: center;
+  margin-bottom: 1rem;
 }
 
 .answersContainer p {
@@ -30,11 +29,11 @@
   margin-bottom: 1rem;
 }
 
-.contentContainer p {
+.content p {
   margin: 0;
 }
 
-.contentContainer h3 {
+.content h3 {
   margin: 0;
 }
 
@@ -46,16 +45,31 @@
 
 .content {
   width: 100%;
-  background-color: #ffa;
 }
 
 .answerButton {
+  cursor: pointer;
+  display: inline-block;
   background-color: #fff;
+  font-size: 16px;
+  margin-right: 0.5rem;
   padding: 0.5rem;
   border: none;
   border-radius: 5px;
 }
 
 .answerButton:hover {
-  background-color: #aff;
+  background-color: #ddd;
+}
+
+@media (max-width: 600px) {
+  .contentContainer {
+    flex-direction: column;
+  }
+  .image {
+    max-width: 100%;
+    max-height: 100%;
+    margin-right: 0;
+    margin-bottom: 1rem;
+  }
 }

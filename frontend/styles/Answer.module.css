@@ -1,4 +1,5 @@
 .container {
+  cursor: pointer;
   display: inline-block;
   background-color: #ffd930;
   padding: 0.3rem;

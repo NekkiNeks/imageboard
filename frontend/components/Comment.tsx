@@ -55,7 +55,7 @@ export default function Comment({
           <div className={styles.answersContainer}>
             <p>Answer to:</p>
             {answer_to.map((id) => {
-              return <Answer id={id} key={id} />;
+              return <Answer id={id} modal={false} key={id} />;
             })}
           </div>
         )}
@@ -71,7 +71,7 @@ export default function Comment({
         <div className={styles.answersContainer}>
           <p>Answers:</p>
           {answers.map((id) => {
-            return <Answer id={id} key={id} />;
+            return <Answer id={id} modal={false} key={id} />;
           })}
         </div>
       )}

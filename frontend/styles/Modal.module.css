@@ -1,0 +1,19 @@
+.container {
+  background-color: #fff;
+  width: 400px;
+  border: 1px solid black;
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.errorContainer {
+  background-color: #ff7979;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  grid-gap: 5px;
+  padding: 1rem;
+}
