@@ -1,7 +1,80 @@
 .container {
+  font-family: var(--font);
+  background-color: var(--colors-white);
+  text-align: center;
   padding: 0 2rem;
 }
 
+.mainHeader {
+  letter-spacing: -0.06em;
+  color: var(--black);
+  font-size: var(--fz-header-lg);
+  margin-bottom: 30px;
+}
+
+.mdHeader {
+  font-weight: 400;
+  color: var(--colors-grey);
+  margin-bottom: 30px;
+}
+
+.mdHeader a {
+  color: var(--colors-accent);
+}
+
+.mdHeader a:hover {
+  color: var(--colors-accent-hov);
+}
+
+.button {
+  cursor: pointer;
+  background-color: var(--colors-accent);
+  display: inline-block;
+  color: var(--colors-white);
+  font-size: var(--fz-text-sm);
+  padding: var(--pad-btn);
+  border-radius: var(--radii);
+  box-shadow: var(--shadow-active);
+  margin-bottom: 30px;
+}
+
+.button:hover {
+  background-color: var(--colors-accent-hov);
+}
+
+.answersContainer {
+}
+
+.answersContainer h2 {
+  font-size: var(--fz-md1);
+  color: var(--black);
+  margin-bottom: 0.5rem;
+}
+
+.answersContainer p {
+  font-size: var(--fz-text-md);
+  color: var(--colors-grey);
+  margin-bottom: 1rem;
+}
+
+.answersContainer ul {
+  margin: auto;
+  padding: 1rem 5rem;
+  background-color: var(--colors-greyfg);
+  max-width: fit-content;
+  text-align: left;
+  list-style: none;
+  border-radius: var(--radii);
+}
+
+.answersContainer li {
+  margin-bottom: 0.5rem;
+  font-size: var(--fz-md2);
+}
+
+.answer {
+  margin-bottom: 2rem;
+}
 .main {
   min-height: 100vh;
   padding: 4rem 0;

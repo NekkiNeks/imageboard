@@ -15,3 +15,45 @@ a {
   box-sizing: border-box;
   margin: 0;
 }
+
+/* variables */
+:root {
+
+  --font: font-family: 'Inter', sans-serif;
+
+  /* fontsize */
+  --fz-header-lg: 100px;
+  --fz-header-md: 70px;
+  --fz-header-sm: 48px;
+
+  --fz-md1: 2rem;
+  --fz-md2: 1.125rem;
+  --fz-sm: 1rem;
+
+  --fz-text-md: 20px;
+  --fz-text-sm: 16px;
+
+  --fz-buttons: 13px;
+
+  --lineheight: 1.6rem;
+
+  /* colors */
+  --colors-black: #111111;
+  --colors-white: #ffffff;
+  --colors-greyfg: #fafafa;
+  --colors-lightgray: #eaeaea;
+  --colors-grey: #666666;
+  --colors-accent: #0070f3;
+  --colors-accent-hov: #379eff;
+
+
+  /* padings */
+  --pad-btn: 0.8rem 3.5rem;
+
+  /* shadows */
+  --shadow-active: 0 4px 14px 0 rgba(0, 118, 255, 0.39);
+  --shadow-unactive: 0 6px 20px rgba(93, 93, 93, 0.23);
+
+  /* radius */
+  --radii: 7px;
+}

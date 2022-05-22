@@ -18,53 +18,69 @@ const Home: NextPage = () => {
           />
           <title>R-chan</title>
         </Head>
-        <header>
-          <h1>Welcome to my little imageboard</h1>
-          <a href="github.com/nekkineks/imageboard" className={styles.gitLink}>
-            git
-          </a>
+        <header className={styles.headerContainer}>
+          <h1 className={styles.mainHeader}>Welcome to my little imageboard</h1>
         </header>
         <main>
-          <h2>
-            This is an anonymous imageboard, like <a href="4chan.org">4chan</a>{" "}
-            but it works on React, so its{" "}
+          <h3 className={styles.mdHeader}>
+            This is an anonymous imageboard, like{" "}
+            <a href="https://4chan.org">4chan</a> but it works on React, so its{" "}
             <a href="https://en.wikipedia.org/wiki/Single-page_application">
               SPA
             </a>
             .
-          </h2>
-          <Link href={"/posts"}>Go to Posts</Link>
-          <h3>Why you created this?</h3>
-          <p>Just for fun, and also for education purposes. </p>
-          <h3>what technologies does this app use?</h3>
-          <p>oh, okay, listen then:</p>
-          <ul>
-            <li>PostgeSQL</li>
-            <li>CSS</li>
-            <ul>
-              <li>styled-components</li>
-              <li>css-modules</li>
-            </ul>
-            <li>JS</li>
-            <ul>
-              <li>React</li>
-              <li>Next</li>
-              <li>Redux toolkit</li>
-              <li>typescript</li>
-              <li>Node JS</li>
-              <li>Express</li>
-            </ul>
-          </ul>
-          <h3>Dont you think its overengineered little bit?</h3>
-          <p>
-            Maybe! Usually imageboards do use less (Jquery and php i guess). But
-            this is just a project to showcase my abilities, so I don't give a
-            shit.
-          </p>
-          <h3>
-            Okay, but can i use it? Create thread or comment other threads?
           </h3>
-          <p>if you are here, then it works, so yes!</p>
+          <Link href={"/posts"}>
+            <a className={styles.button}>Go to Posts</a>
+          </Link>
+          <article className={styles.answersContainer}>
+            <div className={styles.answer}>
+              <h2>Why did you created this?</h2>
+              <p>Just for fun, and also for education purposes. </p>
+            </div>
+            <div className={styles.answer}>
+              <h2>What technologies does this app use?</h2>
+              <p>Oh, okay, listen then:</p>
+              <ul>
+                <li>PostgreSQL</li>
+                <li>CSS</li>
+                <li>styled-components</li>
+                <li>css-modules</li>
+                <li>JS</li>
+                <li>React</li>
+                <li>Next</li>
+                <li>Redux toolkit</li>
+                <li>typescript</li>
+                <li>Node JS</li>
+                <li>Express</li>
+              </ul>
+            </div>
+            <div className={styles.answer}>
+              <h2>Dont you think its overengineered little bit?</h2>
+              <p>
+                Maybe! Usually imageboards do use less (Jquery and php i guess).
+                But this is just a project to showcase my abilities, so I don't
+                give a shit.
+              </p>
+            </div>
+            <div className={styles.answer}>
+              <h2>Is it done?</h2>
+              <p>
+                I dont think so, i want to add some more features, because now i
+                find it hard to use. Lets call this "early access".
+              </p>
+            </div>
+            <div className={styles.answer}>
+              <h2>Why R-chan?</h2>
+              <p>Its simple. React & chan, you know. </p>
+            </div>
+            <div className={styles.answer}>
+              <h2>
+                Okay, but can i use it? Create thread or comment other threads?
+              </h2>
+              <p>if you are here, then it works, so yes!</p>
+            </div>
+          </article>
         </main>
       </div>
     </GlobalContainer>
