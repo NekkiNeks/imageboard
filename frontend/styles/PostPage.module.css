@@ -1,10 +1,59 @@
-
-
 .postContainer {
-  background-color: #eee;
-  border: 1px solid black;
-  margin-bottom: 1rem;
+  font-family: inherit;
   padding: 1rem;
+  background-color: var(--colors-white);
+  border: 1px solid var(--colors-lightgrey);
+  border-radius: var(--radii);
+  margin-bottom: 30px;
+}
+
+.infoContainer {
+  font-size: var(--fz-sm);
+  color: var(--colors-grey);
+  margin-bottom: 1rem;
+}
+
+.contentContainer {
+  display: flex;
+  margin-bottom: 1rem;
+}
+
+.contentContainer h2 {
+  font-size: var(--fz-md1);
+  margin-bottom: 0.5rem;
+}
+
+.contentContainer p {
+  font-size: var(--fz-sm);
+}
+
+.image {
+  border-radius: var(--radii);
+  max-width: 20%;
+  max-height: 200px;
+  margin-right: 1rem;
+}
+
+.buttonsContainer {
+  display: flex;
+  justify-content: end;
+}
+
+.button {
+  cursor: pointer;
+  display: inline-block;
+  background-color: var(--colors-white);
+  font-family: var(--font);
+  font-size: var(--fz-buttons);
+  color: var(--colors-accent);
+  padding: var(--pad-sm-btn);
+  border: none;
+  border-radius: var(--radii);
+}
+
+.button:hover {
+  color: var(--colors-white);
+  background-color: var(--colors-accent-hov);
 }
 
 .loaderContainer {
@@ -29,27 +78,4 @@
   to {
     transform: rotate(360deg);
   }
-}
-
-.postContainer h1 {
-  margin-bottom: 1rem;
-}
-
-.postContainer p {
-  margin-bottom: 1rem;
-}
-
-.button {
-  cursor: pointer;
-  display: inline-block;
-  background-color: #fff;
-  font-size: 16px;
-  margin-right: 0.5rem;
-  padding: 0.5rem;
-  border: none;
-  border-radius: 5px;
-}
-
-.button:hover {
-  background-color: #ddd;
 }

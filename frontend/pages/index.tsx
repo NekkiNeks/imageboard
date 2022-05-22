@@ -46,13 +46,13 @@ const Home: NextPage = () => {
               <ul>
                 <li>PostgreSQL</li>
                 <li>CSS</li>
+                <li>CSS-modules</li>
                 <li>styled-components</li>
-                <li>css-modules</li>
-                <li>JS</li>
+                <li>Javascript</li>
                 <li>React</li>
                 <li>Next</li>
                 <li>Redux toolkit</li>
-                <li>typescript</li>
+                <li>Typescript</li>
                 <li>Node JS</li>
                 <li>Express</li>
               </ul>

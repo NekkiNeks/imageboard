@@ -109,26 +109,39 @@ export default function Post({}: iProps) {
         <Header />
         <GlobalContainer>
           {modal.show && <Modal />}
-          <header className={styles.postContainer}>
-            <p className={styles.postTime}>
-              Posted: {new Date(time).toLocaleString()}
-            </p>
-            <h1 className={styles.postHeader}>{title}</h1>
-            <p className={styles.postContent}>{content}</p>
-            <button
-              className={styles.button}
-              onClick={() => {
-                dispatch(setShow({ show: true }));
-                dispatch(setPostId({ id: id }));
-              }}
-            >
-              Answer
-            </button>
-          </header>
-          {posts.comments &&
-            posts.comments.map((item) => {
-              return <Comment {...item} key={item.id} thread_id={id} />;
-            })}
+          <main>
+            <div className={styles.postContainer}>
+              <div className={styles.infoContainer}>
+                <p>Posted: {new Date(time).toLocaleString()}</p>
+              </div>
+              <div className={styles.contentContainer}>
+                <img
+                  className={styles.image}
+                  src={`${SERVER_URL}/${posts.currentPost.image}`}
+                  alt="image"
+                />
+                <div className={styles.content}>
+                  <h2 className={styles.postHeader}>{title}</h2>
+                  <p className={styles.postContent}>{content}</p>
+                </div>
+              </div>
+              <div className={styles.buttonsContainer}>
+                <button
+                  className={styles.button}
+                  onClick={() => {
+                    dispatch(setShow({ show: true }));
+                    dispatch(setPostId({ id: id }));
+                  }}
+                >
+                  Answer
+                </button>
+              </div>
+            </div>
+            {posts.comments &&
+              posts.comments.map((item) => {
+                return <Comment {...item} key={item.id} thread_id={id} />;
+              })}
+          </main>
         </GlobalContainer>
       </div>
     );
