@@ -12,30 +12,14 @@ export default function Header() {
     <header className={styles.container}>
       <GlobalContainer>
         <div className={styles.contentContainer}>
-          <div className={styles.logo}>_R-chan</div>
-          <nav>
-            <div></div>
-            <ul className={styles.linksContainer}>
-              <li>
-                <Link href="/">
-                  <a>Home</a>
-                </Link>
-              </li>
-              <li>
-                <Link href="/posts">
-                  <a>Posts</a>
-                </Link>
-              </li>
-              <li>
-                <a href="https://github.com/nekkineks/imageboard">
-                  <BsGithub />
-                  {"  "}
-                  Github
-                </a>
-              </li>
-            </ul>
-          </nav>
-          <RiSunLine size={30} color="#111" />
+          <Link href="/">
+            <div className={styles.logo}>_R-chan</div>
+          </Link>
+          <a href="https://github.com/nekkineks/imageboard">
+            <BsGithub />
+            {"  "}
+            Github
+          </a>
         </div>
       </GlobalContainer>
     </header>

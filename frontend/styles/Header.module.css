@@ -13,25 +13,20 @@
   align-items: center;
 }
 
-.linksContainer {
-  display: flex;
-  list-style: none;
-  padding: 0;
-}
-
-.linksContainer a {
+.contentContainer a {
   display: block;
   height: 100%;
   font-size: var(--fz-text-sm);
   padding: 1rem 1.5rem;
 }
 
-.linksContainer a:hover {
+.contentContainer a:hover {
   background-color: var(--colors-accent);
   box-shadow: var(--shadow-active);
 }
 
 .logo {
+  cursor: pointer;
   font-size: 25px;
   font-weight: 800;
 }
