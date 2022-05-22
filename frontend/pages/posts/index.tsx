@@ -23,6 +23,7 @@ import { setDefault, setShow } from "../../store/modalSlice";
 import Thread from "../../components/Thread";
 import Modal from "../../components/Modal";
 import GlobalContainer from "../../components/styled/GlobalContainer";
+import Head from "next/head";
 
 export default function Posts({}: iProps) {
   const dispatch = useDispatch();
@@ -82,6 +83,14 @@ export default function Posts({}: iProps) {
   } else {
     return (
       <div className={styles.container}>
+        <Head>
+          <meta charSet="UTF-8" />
+          <meta
+            name={"description"}
+            content={"Leave hope behind who enters here"}
+          />
+          <title>R-chan</title>
+        </Head>
         <GlobalContainer>
           {modal.show && <Modal />}
           <div className={styles.headerContainer}>

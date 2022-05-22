@@ -25,6 +25,7 @@ type iProps = {};
 import Comment from "../../components/Comment";
 import Modal from "../../components/Modal";
 import GlobalContainer from "../../components/styled/GlobalContainer";
+import Head from "next/head";
 
 export default function Post({}: iProps) {
   const router = useRouter();
@@ -99,6 +100,11 @@ export default function Post({}: iProps) {
     const { time, title, content, id } = posts.currentPost;
     return (
       <div className={styles.container}>
+        <Head>
+          <meta charSet="UTF-8" />
+          <meta name={"description"} content={posts.currentPost.content} />
+          <title>{posts.currentPost.title}</title>
+        </Head>
         <GlobalContainer>
           {modal.show && <Modal />}
           <header className={styles.postContainer}>
