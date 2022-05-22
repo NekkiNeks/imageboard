@@ -32,8 +32,7 @@ export default function Thread({
   return (
     <article className={styles.container}>
       <div className={styles.infoContainer}>
-        <p>id: {id}</p>
-        <p className={styles.time}>Posted: {time}</p>
+        <p className={styles.time}>Posted: {new Date(time).toLocaleString()}</p>
         <p className={styles.answers}>Comments: {comments}</p>
       </div>
       <div className={styles.contentContainer}>
@@ -45,17 +44,17 @@ export default function Thread({
           />
         )}
         <div className={styles.content}>
-          <h1>{title}</h1>
+          <h2>{title}</h2>
           <p>{content}</p>
         </div>
       </div>
       <div className={styles.buttonsContainer}>
         <Link href={`posts/${id}`}>
-          <div className={styles.button}>Enter to Thread</div>
+          <a className={styles.button}>Enter to Thread</a>
         </Link>
-        <button className={styles.button} onClick={() => handleAnswer()}>
+        <div className={styles.button} onClick={() => handleAnswer()}>
           answer
-        </button>
+        </div>
       </div>
     </article>
   );

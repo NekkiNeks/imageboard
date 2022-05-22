@@ -1,11 +1,15 @@
 .container {
-  margin: 10px auto;
+  font-family: inherit;
   padding: 1rem;
-  background-color: #eee;
-  border: 1px solid black;
+  background-color: var(--colors-white);
+  border: 1px solid var(--colors-lightgrey);
+  border-radius: var(--radii);
+  margin-bottom: 30px;
 }
 
 .infoContainer {
+  font-size: var(--fz-sm);
+  color: var(--colors-grey);
   margin-bottom: 1rem;
 }
 
@@ -14,28 +18,42 @@
   margin-bottom: 1rem;
 }
 
+.contentContainer h2 {
+  font-size: var(--fz-md1);
+  margin-bottom: 0.5rem;
+}
+
+.contentContainer p {
+  font-size: var(--fz-sm);
+}
+
 .image {
-  max-width: 15%;
+  border-radius: var(--radii);
+  max-width: 20%;
   max-height: 200px;
   margin-right: 1rem;
 }
 
 .buttonsContainer {
+  display: flex;
+  justify-content: end;
 }
 
 .button {
   cursor: pointer;
   display: inline-block;
-  background-color: #fff;
-  font-size: 16px;
-  margin-right: 0.5rem;
-  padding: 0.5rem;
+  background-color: var(--colors-white);
+  font-family: var(--font);
+  font-size: var(--fz-buttons);
+  color: var(--colors-accent);
+  padding: var(--pad-sm-btn);
   border: none;
-  border-radius: 5px;
+  border-radius: var(--radii);
 }
 
 .button:hover {
-  background-color: #ddd;
+  color: var(--colors-white);
+  background-color: var(--colors-accent-hov);
 }
 
 .time {
