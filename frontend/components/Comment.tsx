@@ -48,9 +48,11 @@ export default function Comment({
 
   return (
     <article className={styles.container} id={id.toString()}>
-      <div className={styles.infoContainer}>
-        <p>id: {id}</p>
-        <p>Posted: {timeString}</p>
+      <div className={styles.topContainer}>
+        <div className={styles.infoContainer}>
+          <p>id: {id}</p>
+          <p>Posted: {timeString}</p>
+        </div>
         {answer_to.length > 0 && (
           <div className={styles.answersContainer}>
             <p>Answer to:</p>
@@ -60,6 +62,7 @@ export default function Comment({
           </div>
         )}
       </div>
+      {/* content */}
       <div className={styles.contentContainer}>
         {image && (
           <img
@@ -69,21 +72,27 @@ export default function Comment({
           />
         )}
         <div className={styles.content}>
-          {title && <h3>{title}</h3>}
+          {title && <h2>{title}</h2>}
           <p>{content}</p>
         </div>
       </div>
-      {answers.length > 0 && (
-        <div className={styles.answersContainer}>
-          <p>Answers:</p>
-          {answers.map((id) => {
-            return <Answer id={id} modal={false} key={id} />;
-          })}
+      {/* answers */}
+      <div className={styles.bottomContainer}>
+        {answers.length > 0 && (
+          <div className={styles.answersContainer}>
+            <p>Answers:</p>
+            {answers.map((id) => {
+              return <Answer id={id} modal={false} key={id} />;
+            })}
+          </div>
+        )}
+
+        <div className={styles.buttonContainer}>
+          <button className={styles.button} onClick={handleAnswer}>
+            Answer
+          </button>
         </div>
-      )}
-      <button className={styles.answerButton} onClick={handleAnswer}>
-        Answer
-      </button>
+      </div>
     </article>
   );
 }

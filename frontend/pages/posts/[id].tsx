@@ -1,3 +1,4 @@
+import Head from "next/head";
 import React, { useEffect } from "react";
 import { SERVER_URL } from "../../appconfig";
 import { useRouter } from "next/router";
@@ -25,7 +26,7 @@ type iProps = {};
 import Comment from "../../components/Comment";
 import Modal from "../../components/Modal";
 import GlobalContainer from "../../components/styled/GlobalContainer";
-import Head from "next/head";
+import Header from "../../components/Header";
 
 export default function Post({}: iProps) {
   const router = useRouter();
@@ -105,6 +106,7 @@ export default function Post({}: iProps) {
           <meta name={"description"} content={posts.currentPost.content} />
           <title>{posts.currentPost.title}</title>
         </Head>
+        <Header />
         <GlobalContainer>
           {modal.show && <Modal />}
           <header className={styles.postContainer}>

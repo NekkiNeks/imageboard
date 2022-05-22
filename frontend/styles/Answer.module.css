@@ -1,7 +1,20 @@
 .container {
   cursor: pointer;
+  display: inline;
+  background-color: var(--colors-white);
+  font-family: var(--font);
+  font-size: var(--fz-buttons);
+  color: var(--colors-accent);
+  padding: var(--pad-sm-btn);
+  border: none;
+  border-radius: var(--radii);
+}
+
+.container:hover {
+  color: var(--colors-white);
+  background-color: var(--colors-accent-hov);
+}
+
+.deleteButton {
   display: inline-block;
-  background-color: #ffd930;
-  padding: 0.3rem;
-  margin-right: 0.5rem;
 }
