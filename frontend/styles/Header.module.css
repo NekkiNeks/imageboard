@@ -1,0 +1,37 @@
+.container {
+  font-family: var(--font);
+  background-color: var(--colors-black);
+  color: var(--colors-white);
+  width: 100%;
+  margin-bottom: 30px;
+}
+
+.contentContainer {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.linksContainer {
+  display: flex;
+  list-style: none;
+  padding: 0;
+}
+
+.linksContainer a {
+  display: block;
+  height: 100%;
+  font-size: var(--fz-text-sm);
+  padding: 1rem 1.5rem;
+}
+
+.linksContainer a:hover {
+  background-color: var(--colors-accent);
+  box-shadow: var(--shadow-active);
+}
+
+.logo {
+  font-size: 25px;
+  font-weight: 800;
+}

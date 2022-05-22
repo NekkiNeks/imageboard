@@ -1,11 +1,19 @@
 .container {
-  padding: 1rem;
+  font-family: var(--font);
 }
 
 .headerContainer h1 {
-  font-family: monospace;
   text-align: center;
+  font-size: var(--fz-header-sm);
+  color: var(--colors-black);
   margin-bottom: 1rem;
+}
+
+.headerContainer p {
+  text-align: center;
+  font-size: var(--fz-md2);
+  color: var(--colors-grey);
+  margin-bottom: 30px;
 }
 
 .loaderContainer {
@@ -33,16 +41,20 @@
 }
 
 .button {
-  display: block;
-  margin: auto;
   cursor: pointer;
-  background-color: #eee;
-  font-size: 16px;
-  padding: 0.5rem;
+  display: block;
+  background-color: var(--colors-accent);
+  font-family: var(--font);
+  font-size: var(--fz-text-sm);
+  color: var(--colors-white);
+  padding: var(--pad-btn);
+  margin: auto;
+  margin-bottom: 30px;
   border: none;
-  border-radius: 5px;
+  border-radius: var(--radii);
+  box-shadow: var(--shadow-active);
 }
 
 .button:hover {
-  background-color: #ddd;
+  background-color: var(--colors-accent-hov);
 }

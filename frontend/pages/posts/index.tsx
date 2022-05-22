@@ -1,3 +1,4 @@
+import Head from "next/head";
 import React, { useEffect } from "react";
 import { SERVER_URL } from "../../appconfig";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
@@ -23,7 +24,7 @@ import { setDefault, setShow } from "../../store/modalSlice";
 import Thread from "../../components/Thread";
 import Modal from "../../components/Modal";
 import GlobalContainer from "../../components/styled/GlobalContainer";
-import Head from "next/head";
+import Header from "../../components/Header";
 
 export default function Posts({}: iProps) {
   const dispatch = useDispatch();
@@ -91,11 +92,16 @@ export default function Posts({}: iProps) {
           />
           <title>R-chan</title>
         </Head>
+        <Header />  
         <GlobalContainer>
           {modal.show && <Modal />}
-          <div className={styles.headerContainer}>
-            <h1 className={styles.header}>This is the last posts</h1>
-          </div>
+          <header className={styles.headerContainer}>
+            <h1 className={styles.header}>This is the last posts.</h1>
+            <p>
+              You can create your own post, or answer to another posts
+              anonymously.
+            </p>
+          </header>
           <button className={styles.button} onClick={handleAnswer}>
             Create Thread
           </button>

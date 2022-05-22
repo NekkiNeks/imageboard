@@ -5,22 +5,24 @@ import styles from "../styles/Home.module.css";
 
 //import components
 import GlobalContainer from "../components/styled/GlobalContainer";
+import Header from "../components/Header";
 
 const Home: NextPage = () => {
   return (
-    <GlobalContainer>
-      <div className={styles.container}>
-        <Head>
-          <meta charSet="UTF-8" />
-          <meta
-            name={"description"}
-            content="This is my little imageboard, that i was created to show my abillities, feel free to use it"
-          />
-          <title>R-chan</title>
-        </Head>
-        <header className={styles.headerContainer}>
+    <div className={styles.container}>
+      <Head>
+        <meta charSet="UTF-8" />
+        <meta
+          name={"description"}
+          content="This is my little imageboard, that i was created to show my abillities, feel free to use it"
+        />
+        <title>R-chan</title>
+      </Head>
+      <Header />
+      <GlobalContainer>
+        <div className={styles.headerContainer}>
           <h1 className={styles.mainHeader}>Welcome to my little imageboard</h1>
-        </header>
+        </div>
         <main>
           <h3 className={styles.mdHeader}>
             This is an anonymous imageboard, like{" "}
@@ -82,8 +84,8 @@ const Home: NextPage = () => {
             </div>
           </article>
         </main>
-      </div>
-    </GlobalContainer>
+      </GlobalContainer>
+    </div>
   );
 };
 
