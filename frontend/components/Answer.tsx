@@ -34,9 +34,11 @@ export default function Answer({ id, modal }: iProps) {
         {id}{" "}
       </span>
       {modal && (
-        <button onClick={() => dispatch(removeId({ id: id }))}>
-          <AiFillDelete />
-        </button>
+        <AiFillDelete
+          size={20}
+          className={styles.deleteButton}
+          onClick={() => dispatch(removeId({ id: id }))}
+        />
       )}
     </div>
   );

@@ -29,12 +29,9 @@
   font-size: var(--fz-text-sm);
   font-family: inherit;
   padding: 1rem;
-  border: none;
+  border: 1px solid var(--colors-lightgrey);
   border-radius: var(--radii);
   background-color: var(--colors-greyfg);
-}
-
-.titleInput {
 }
 
 .textInput {

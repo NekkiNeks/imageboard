@@ -1,6 +1,7 @@
 .container {
   cursor: pointer;
-  display: inline;
+  display: inline-flex;
+  align-items: center;
   background-color: var(--colors-white);
   font-family: var(--font);
   font-size: var(--fz-buttons);
@@ -16,5 +17,13 @@
 }
 
 .deleteButton {
+  margin-left: 0.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   display: inline-block;
+}
+
+.deleteButton:hover {
+  color: #f06449;
 }
