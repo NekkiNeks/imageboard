@@ -1,24 +1,99 @@
 .container {
-  margin-top: 1rem;
-  background-color: #fff;
-  width: 400px;
-  border: 1px solid black;
   position: fixed;
+  width: 600px;
+  font-family: var(--font);
+  background-color: var(--colors-white);
+  border: 1px solid var(--colors-lightgrey);
+  font-family: var(--font);
+  margin-top: 1rem;
+  padding: 1rem;
+  border-radius: var(--radii);
   left: 50%;
   transform: translateX(-50%);
+  box-shadow: var(--shadow-unactive);
 }
+
+.infoContainer {
+  font-size: var(--fz-sm);
+  margin-bottom: 1rem;
+  color: var(--colors-grey);
+}
+
+/* inputs */
+.container label {
+  font-size: var(--fz-md2);
+}
+
+.input {
+  margin-bottom: 1rem;
+  font-size: var(--fz-text-sm);
+  font-family: inherit;
+  padding: 1rem;
+  border: none;
+  border-radius: var(--radii);
+  background-color: var(--colors-greyfg);
+}
+
+.titleInput {
+}
+
+.textInput {
+  max-width: 100%;
+  min-width: 100%;
+  resize: none;
+}
+
+.fileInput {
+  border: 2px dashed var(--colors-accent);
+}
+
+/* buttons */
+.buttonContainer {
+  display: flex;
+  grid-gap: 1rem;
+}
+.button {
+  cursor: pointer;
+  display: block;
+  width: 100%;
+  font-size: var(--fz-text-sm);
+  padding: var(--pad-btn);
+  margin: auto;
+  border: none;
+  border-radius: var(--radii);
+}
+
+.submitButton {
+  background-color: var(--colors-accent);
+  color: var(--colors-white);
+}
+
+.submitButton:hover {
+  background-color: var(--colors-accent-hov);
+  box-shadow: var(--shadow-active);
+}
+
+.cancelButton {
+  background-color: var(--colors-greyfg);
+}
+
+.cancelButton:hover {
+  box-shadow: var(--shadow-unactive);
+}
+
+/* Error */
 
 .errorContainer {
-  background-color: #ff7979;
+  background-color: #f06449;
+  color: var(--colors-white);
+  padding: var(--pad-btn);
+  border-radius: var(--radii);
+  margin-bottom: 1rem;
 }
 
+/* form */
 .form {
   display: flex;
   flex-direction: column;
   grid-gap: 5px;
-  padding: 1rem;
-}
-
-.deleteButton {
-  cursor: pointer;
 }

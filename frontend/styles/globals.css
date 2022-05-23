@@ -18,8 +18,7 @@ a {
 
 /* variables */
 :root {
-
-  --font: font-family: 'Inter', sans-serif;
+  --font: "Inter", sans-serif;
 
   /* fontsize */
   --fz-header-lg: 100px;
@@ -46,15 +45,14 @@ a {
   --colors-accent: #0070f3;
   --colors-accent-hov: #379eff;
 
-
   /* padings */
   --pad-btn: 0.8rem 3.5rem;
-  --pad-sm-btn: .25rem .5rem;;
+  --pad-sm-btn: 0.25rem 0.5rem;
 
   /* shadows */
   --shadow-active: 0 4px 14px 0 rgba(0, 118, 255, 0.39);
-  --shadow-unactive: 0 3px 10px rgba(93,93,93,.23);
-  --shadow-unactive-hover: 0 6px 20px rgba(93,93,93,.23);
+  --shadow-unactive: 0 3px 10px rgba(93, 93, 93, 0.23);
+  --shadow-unactive-hover: 0 6px 20px rgba(93, 93, 93, 0.23);
 
   /* radius */
   --radii: 7px;

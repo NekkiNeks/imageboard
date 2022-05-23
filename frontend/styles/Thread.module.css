@@ -36,7 +36,7 @@
 
 .buttonsContainer {
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
 }
 
 .button {
@@ -55,4 +55,3 @@
   color: var(--colors-white);
   background-color: var(--colors-accent-hov);
 }
-

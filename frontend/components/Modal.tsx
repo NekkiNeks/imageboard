@@ -171,10 +171,11 @@ export default function Modal({}: iProps) {
     <div className={styles.container}>
       {modal.error && (
         <div className={styles.errorContainer}>
-          <p>there is error, message: {modal.errorMessage}.</p>
+          <p>Error: {modal.errorMessage}.</p>
         </div>
       )}
-      <form className={styles.form} action="POST" onSubmit={handleSubmit}>
+      <div className={styles.infoContainer}>
+        {modal.data.thread_id && <p>Post id: {modal.data.thread_id}</p>}
         {modal.data.answer_to.length > 0 && (
           <div className={styles.answersContainer}>
             <p>Answer to: </p>
@@ -185,9 +186,11 @@ export default function Modal({}: iProps) {
             </div>
           </div>
         )}
-        <p>Post id: {modal.data.thread_id}</p>
+      </div>
+      <form className={styles.form} action="POST" onSubmit={handleSubmit}>
         <label htmlFor="title">Title:</label>
         <input
+          className={`${styles.input} ${styles.titleInput}`}
           disabled={modal.loading ? true : false}
           type="text"
           name="title"
@@ -196,6 +199,7 @@ export default function Modal({}: iProps) {
         />
         <label htmlFor="Text">Text:</label>
         <textarea
+          className={`${styles.input} ${styles.textInput}`}
           disabled={modal.loading ? true : false}
           name="content"
           rows={12}
@@ -205,6 +209,7 @@ export default function Modal({}: iProps) {
 
         <label htmlFor="file">File:</label>
         <input
+          className={`${styles.input} ${styles.fileInput}`}
           disabled={modal.loading ? true : false}
           type="file"
           name="file"
@@ -218,10 +223,21 @@ export default function Modal({}: iProps) {
         <div className={styles.deleteButton} onClick={setFileToDefault}>
           Delete image
         </div>
-        <button type="submit" disabled={modal.loading ? true : false}>
-          Send
-        </button>
-        <button onClick={handleClose}>Close</button>
+        <div className={styles.buttonContainer}>
+          <button
+            className={`${styles.submitButton} ${styles.button}`}
+            type="submit"
+            disabled={modal.loading ? true : false}
+          >
+            Send
+          </button>
+          <button
+            className={`${styles.cancelButton} ${styles.button}`}
+            onClick={handleClose}
+          >
+            Close
+          </button>
+        </div>
       </form>
     </div>
   );

@@ -1,3 +1,7 @@
+.container {
+  font-family: var(--font);
+}
+
 .postContainer {
   font-family: inherit;
   padding: 1rem;
@@ -36,7 +40,7 @@
 
 .buttonsContainer {
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
 }
 
 .button {
