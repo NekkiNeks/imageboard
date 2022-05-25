@@ -15,6 +15,7 @@ interface iProps extends iComment {}
 
 //import components
 import Answer from "./Answer";
+import Image from "./styled/Image";
 
 export default function Comment({
   id,
@@ -64,13 +65,7 @@ export default function Comment({
       </div>
       {/* content */}
       <div className={styles.contentContainer}>
-        {image && (
-          <img
-            className={styles.image}
-            src={`${SERVER_URL}/${image}`}
-            alt="image"
-          />
-        )}
+        {image && <Image src={`${SERVER_URL}/${image}`} alt="image" />}
         <div className={styles.content}>
           {title && <h2>{title}</h2>}
           <p>{content}</p>

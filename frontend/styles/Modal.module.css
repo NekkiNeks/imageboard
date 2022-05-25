@@ -94,3 +94,23 @@
   flex-direction: column;
   grid-gap: 5px;
 }
+
+@media (max-width: 769px) {
+  .container {
+    width: 80%;
+  }
+}
+
+@media (max-width: 481px) {
+  .container label {
+    font-size: 16px;
+  }
+
+  .input {
+    font-size: 13px;
+  }
+
+  .buttonContainer {
+    flex-direction: column;
+  }
+}

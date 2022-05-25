@@ -71,3 +71,28 @@
 .answer {
   margin-bottom: 2rem;
 }
+
+@media (max-width: 769px) {
+  .mainHeader {
+    font-size: var(--fz-header-md);
+  }
+}
+
+@media (max-width: 481px) {
+  .mainHeader {
+    font-size: var(--fz-header-sm);
+  }
+
+  .mdHeader {
+    font-size: 13px;
+  }
+
+  .answersContainer h2 {
+    font-size: 1.5rem;
+  }
+
+  .answersContainer ul,
+  .answersContainer p {
+    font-size: 13px;
+  }
+}

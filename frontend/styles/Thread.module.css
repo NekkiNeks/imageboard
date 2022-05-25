@@ -18,6 +18,10 @@
   margin-bottom: 1rem;
 }
 
+.content {
+  width: 80%;
+}
+
 .contentContainer h2 {
   font-size: var(--fz-md1);
   margin-bottom: 0.5rem;
@@ -25,13 +29,6 @@
 
 .contentContainer p {
   font-size: var(--fz-sm);
-}
-
-.image {
-  border-radius: var(--radii);
-  max-width: 20%;
-  max-height: 200px;
-  margin-right: 1rem;
 }
 
 .buttonsContainer {
@@ -54,4 +51,52 @@
 .button:hover {
   color: var(--colors-white);
   background-color: var(--colors-accent-hov);
+}
+
+@media (max-width: 769px) {
+  .container {
+    padding: 1.5rem;
+  }
+
+  .topContainer {
+    flex-direction: column;
+  }
+
+  .contentContainer {
+    flex-direction: column;
+  }
+
+  .content {
+    width: 100%;
+  }
+
+  .buttonsContainer {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .button {
+    margin-top: 1rem;
+  }
+}
+
+@media (max-width: 481px) {
+  .infoContainer {
+    font-size: 13px;
+  }
+
+  .answersContainer {
+    font-size: 13px;
+
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .content h2 {
+    font-size: 18px;
+  }
+
+  .content p {
+    font-size: 13px;
+  }
 }

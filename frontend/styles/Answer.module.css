@@ -27,3 +27,9 @@
 .deleteButton:hover {
   color: #f06449;
 }
+
+@media (max-width: 481px) {
+  .container {
+    font-size: 11px;
+  }
+}

@@ -4,6 +4,7 @@ import Link from "next/link";
 
 //styles
 import styles from "../styles/Thread.module.css";
+
 //redux
 import { setShow, setPostId } from "../store/modalSlice";
 import { useDispatch } from "react-redux";
@@ -13,6 +14,7 @@ import { iPost } from "../types/types";
 interface iProps extends iPost {}
 
 //import components
+import Image from "./styled/Image";
 
 export default function Thread({
   image,
@@ -36,13 +38,7 @@ export default function Thread({
         <p className={styles.answers}>Comments: {comments}</p>
       </div>
       <div className={styles.contentContainer}>
-        {image && (
-          <img
-            className={styles.image}
-            src={`${SERVER_URL}/${image}`}
-            alt="image"
-          />
-        )}
+      {image && <Image src={`${SERVER_URL}/${image}`} alt="image" />}
         <div className={styles.content}>
           <h2>{title}</h2>
           <p>{content}</p>

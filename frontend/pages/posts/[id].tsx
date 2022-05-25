@@ -23,6 +23,7 @@ import { RootState } from "../../store";
 type iProps = {};
 
 //import components
+import Image from "../../components/styled/Image";
 import Comment from "../../components/Comment";
 import Modal from "../../components/Modal";
 import GlobalContainer from "../../components/styled/GlobalContainer";
@@ -115,8 +116,7 @@ export default function Post({}: iProps) {
                 <p>Posted: {new Date(time).toLocaleString()}</p>
               </div>
               <div className={styles.contentContainer}>
-                <img
-                  className={styles.image}
+                <Image
                   src={`${SERVER_URL}/${posts.currentPost.image}`}
                   alt="image"
                 />
