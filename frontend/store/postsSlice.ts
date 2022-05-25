@@ -39,6 +39,19 @@ export const postsSlice = createSlice({
     },
     addComment: (state, action: PayloadAction<{ comment: iComment }>) => {
       state.comments.push(action.payload.comment);
+
+      // Add answers to comments in the ui
+      for (let answerId of action.payload.comment.answer_to) {
+        const newComments = state.comments.map((comment) => {
+          if (comment.id === answerId) {
+            comment.answers.push(action.payload.comment.id);
+            return comment;
+          } else {
+            return comment;
+          }
+        });
+        state.comments = newComments;
+      }
     },
     setLoading: (state, action: PayloadAction<{ loading: boolean }>) => {
       state.loading = action.payload.loading;
